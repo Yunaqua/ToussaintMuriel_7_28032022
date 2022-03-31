@@ -17,3 +17,12 @@ const menu = new Vue({
 
 
 }) //const menu
+
+const navconnect = new Vue({
+  el: "#navconnect",
+  data() {
+    return {
+      email: '',
+      password: '',
+
+}) //const menu

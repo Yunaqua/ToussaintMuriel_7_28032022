@@ -2,7 +2,7 @@ require('dotenv').config();
 const mysql = require('mysql');
 const express = require('express');
 const bodyParser = require('body-parser');
-//const session = require('express-session');
+const dbc  = require('./db/dbConnection');
 const path = require('path');
 
 const app =express();
@@ -11,17 +11,10 @@ app.use(bodyParser.json());
 
 const authRoutes = require('./routes/auth');
 
-const connection = mysql.createConnection({
-	host     : 'localhost',
-	user     : 'root',
-	password : process.env.MYSQL_MDP,
-	database : process.env.MYSQL_DATABASE
-})
-
 app.listen(5001, () => {
 	console.log("server port 5001")
 })
-connection.connect( (error) =>{
+dbc.connect( (error) =>{
 	if(error){
 		console.log(error)
 	}else {
@@ -36,9 +29,11 @@ app.use((req, res, next) => {
 	next();
   });
 
-app.use('/', require('./routes/pages'));
-app.use('/auth', authRoutes);
-
+//app.use('/', require('./routes/pages'));
+//app.use('/auth', authRoutes);
+app.post('/auth/register', function(request, response) {
+	console.log(req.body);
+});
 
 
 module.exports = app;
