@@ -1,0 +1,19 @@
+nav{
+    background-color :red;
+    display:flex;
+    justify-content:space-between;
+    padding :30px 60px;
+}
+nav ul{
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+}
+nav li{
+    list-style:none;
+    
+}
+nav li a{
+    padding :8px;
+    color:white;
+}
