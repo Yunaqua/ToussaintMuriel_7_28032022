@@ -1,6 +1,6 @@
 require('dotenv').config();
 const mysql = require('mysql');
-const bcrypt =require('bcrypt');
+const bcrypt =require('bcryptjs');
 
 const db = mysql.createConnection({
 
@@ -16,7 +16,8 @@ exports.register = (req,res) => {
 
     const { name, email, password, passwordConfirm} = req.body;
 
-    db.query("SELECT email FROM user WHERE email = ?" ,[email], async (error, results) => {//verifie qu'il n'y a pas d'autre utilisateur
+    db.query("SELECT email FROM user WHERE email = ?" ,
+        [email], async (error, results) => {//verifie qu'il n'y a pas d'autre utilisateur
         if(error) {
             console.log(error);
         }
@@ -45,3 +46,51 @@ exports.register = (req,res) => {
    
     //res.send("testing");
     }//export
+
+
+ exports.login = (req,res) => {
+    console.log(req.body);
+    const { email, password, passwordConfirm} = req.body;
+    
+    //db.query(`SELECT * FROM user WHERE password = password AND `email`= email`;
+    db.query("SELECT email FROM user WHERE email = ?" ,
+        [email], async (error, results)=> {
+            if(error) {
+                console.log(error);
+            }if( results.length == 0){// results est un tableau
+                return res.render("login", { message :"No email in the BDD"})
+            } else if( password !== passwordConfirm){
+                return res.render("login", { message :"Passwords do not match"});
+            }
+            
+            db.query(`SELECT * FROM user WHERE email= ?`, 
+            [email], async (error, results)=> {
+                console.log(results);
+                let hashedPassword = await bcrypt.hash(password,10);
+                console.log(hashedPassword);
+           
+               const compare =  bcrypt.compare(hashedPassword, results[0].password)
+                    if(!compare) {
+                        console.log(error);
+                    }else{
+                        console.log("results");
+                        return res.render("login", { message :"User login"});
+                    }
+                //bcrypt
+            });//query
+           
+        /*
+            db.query(`SELECT * FROM user WHERE email=${email} AND password = ${hashedPassword}`, 
+            {email: email, password : hashedPassword}, (error, results) => {
+                if(error) {
+                    console.log(error);
+                }else{
+                    console.log(results);
+                    return res.render("login", { message :"User login"});
+      
+                
+            })//query insert } */
+
+    });//query
+
+}//export
