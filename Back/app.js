@@ -15,8 +15,8 @@ const db = mysql.createConnection({
 	database : process.env.MYSQL_DATABASE
 })
 
-const publicDirectory = path.join(__dirname , './public');
-console.log(__dirname);
+const publicDirectory = path.join(__dirname , '..\Front\Asset\Css');
+//console.log(__dirname);
 app.use(express.static(publicDirectory));
 
 //parse url encoded bodie
@@ -24,7 +24,8 @@ app.use(express.urlencoded({ extended :false})); //grab data from any form
 //parse json bodies (as sent by API clients)
 app.use(express.json());
 
-app.set("view engine", 'hbs');
+app.set('views', path.join(__dirname, '..\Front\my-first-vue-cli-app\src\views'))
+app.set('view engine', 'ejs')
 
 db.connect ( (error) => {
 	if(error){

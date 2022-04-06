@@ -1,7 +1,52 @@
+/* ----------------  Les polices ---------------- */
+
+h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+  }
+
+  /* ----------------  La navigation ---------------- */
 #menu{
     background-color: aquamarine;
     border: 2px solid rgb(0, 110, 255);
 }
+
+nav {
+    padding: 30px;
+    background-color: #fd2d01;
+  }
+  nav a {
+    font-weight: bold;
+    color:black;
+  }
+
+
+
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
+  
+  nav a.router-link-exact-active {
+    color: white;
+  }
+  
+  .router-link-active {
+    font-weight: bold;
+    color:blueviolet;
+  }
+
+  .login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
 .log-sign{
     display: flex;
@@ -20,3 +65,36 @@
          color: red;
      }
 }
+
+/* ----------------  Container ---------------- */
+
+.container {
+    padding: 0px;
+    max-width: 1140px;
+  }
+  
+  .register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .submitbutton {
+    background-color: #fd2d01;;
+    color: white;
+    margin: 2em;
+    padding: 0.5em;
+    border-radius: 10px;
+  }
+  
+  .btn-primary {
+    color: #fff;
+    background-color: #fd2d01;
+    border-color: #007bff;
+  }
+  

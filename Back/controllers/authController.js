@@ -44,15 +44,14 @@ exports.register = (req,res) => {
     }); //query
 
    
-    //res.send("testing");
+    
     }//export
 
 
  exports.login = (req,res) => {
     console.log(req.body);
     const { email, password, passwordConfirm} = req.body;
-    
-    //db.query(`SELECT * FROM user WHERE password = password AND `email`= email`;
+   
     db.query("SELECT email FROM user WHERE email = ?" ,
         [email], async (error, results)=> {
             if(error) {
@@ -74,7 +73,8 @@ exports.register = (req,res) => {
                         console.log(error);
                     }else{
                         console.log("results");
-                        return res.render("login", { message :"User login"});
+                        //return res.render("login", { message :"User login"});
+                        return res.render("gg");
                     }
                 //bcrypt
             });//query
