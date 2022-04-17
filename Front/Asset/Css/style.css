@@ -55,6 +55,12 @@ nav a {
   padding: 1.5em;
   justify-content: center;
 }
+.log-sign div:hover {
+  border-bottom: 2px solid red;
+  background-color: aliceblue;
+  filter: brightness(2.35);
+  cursor: pointer;
+}
 
 /*
 .log-sign div{
@@ -65,13 +71,6 @@ nav a {
     justify-content: center;
 
 }*/
-.log-sign div:hover {
-  border-bottom: 2px solid red;
-  background-color: aliceblue;
-  filter: brightness(2.35);
-  cursor: pointer;
-}
-
 /* ----------------  Img et icon ---------------- */
 img.icons {
   width: 15em;
