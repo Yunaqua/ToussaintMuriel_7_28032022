@@ -2,11 +2,18 @@
   "name": "front",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "sass": "sass --watch ./Asset/sass/main.scss:./Asset/Css/style.css"
-  },
   "author": "",
+  "scripts": {
+    "sass": "sass --watch ./Asset/sass/main.scss:./Asset/Css/style.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "vue-router": "^4.0.13",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-vuex": "^5.0.4"
+  },
   "license": "ISC"
 }

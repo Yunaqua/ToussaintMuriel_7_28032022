@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended :false})); //grab data from any form
 //parse json bodies (as sent by API clients)
 app.use(express.json());
 
-app.set('views', path.join(__dirname, '../Front/my-first-vue-cli-app/src/views'))
+app.set('views', path.join(__dirname, '../Front/my-groupania-app/src/views'))
 app.set('view engine', 'ejs');
 
 db.connect ( (error) => {
@@ -32,8 +32,7 @@ db.connect ( (error) => {
 	}else {
 		console.log("Mysl connection")
 	}
-})
-
+}) 
 //Les routes
 
 app.use("/", require("./routes/pages"))
