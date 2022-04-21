@@ -8,5 +8,8 @@
     "sass": "sass --watch ./Asset/sass/main.scss:./Asset/Css/style.css"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^3.2.33"
+  }
 }
