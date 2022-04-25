@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="css/bootstrap.css">
 
-    <link rel="icon" href="Front/Asset/Logo/vueLogo.png" />
+    <link rel="icon" href="/Asset/Logo/vueLogo.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
     
 
@@ -20,13 +20,14 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/login">Login</router-link> |
     <router-link to="/register">Register</router-link>
+
   </nav>
 
  
   <router-view/>
 
     <div class="HomePage">
-    <HelloWorld msg=" Bienvenue chez Groupomania! " />
+    <HelloWorld />
     </div>
 
 
@@ -36,15 +37,6 @@
 
 
 <script>
-  import HelloWorld from "@/views/HomeView.vue";
-
-
-  export default {
-    name :"HomePage",
-    components :{
-      HelloWorld,
-    },
-};
 
 </script>
 

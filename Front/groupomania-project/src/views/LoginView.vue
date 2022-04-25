@@ -19,24 +19,25 @@
                 Login form
             </div>
             <div class="card-body">
-                <form action="/auth/login" method="POST"> 
+                <form > 
 
                     <div class="form-row">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email">
+                        <input type="email" class="form-control" id="email" name="email" v-model="email">
                     </div>
 
                     <div class="form-row">
                         <label for="password">Mot de passe</label>
-                        <input type="password" class="form-control" id="password" name="password">
+                        <input type="password" class="form-control" id="password" name="password"  v-model="password">
                     </div>
                     <div class="form-row">
                         <label for="passwordConfirm">Mot de passe confirmé </label>
-                        <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm">
+                        <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" v-model="passwordConfirm">
+                        <p v-if="password != '' && password != passwordConfirm">{{badpassword}}</p>
                     </div>
                     
                      <div class="form-row">
-                        <button @click="createAccount()" class="button" :class="{'button--disabled' : !validatedFields}" >
+                        <button class="button" type="submit" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
                             <span v-if="status == 'loading'">Création en cours...</span>
                             <span>Se connecter à mon compte</span>
                         </button>
@@ -44,14 +45,47 @@
                 </form>
             </div>
         </div>
-       <!-- {{#if message}}
-            <h4 class="alert alert-danger mt-4">{{message}}</h4>
-        {{/if}} -->
+   
     </div>
 
 
 
 </template>
+
+<script>
+//form action="/auth/login" method="POST"
+export default {
+  name: 'ToLogin',
+  data: function () {
+    return {
+      email: '',
+      password: '',
+      passwordConfirm: '', 
+
+      badpassword:"Mots de passe différent",
+
+    }
+  }, //data
+  computed: {
+    isDisabled () {
+        if (this.email != "" && this.password.length > 6 && this.password == this.passwordConfirm) {
+          return false;
+        } else {
+          return true;
+        }
+      
+    },
+
+  }, //computed
+  methods: {
+    createAccount :function (){
+      console.log(this.email, this.password)
+    }
+  }//methode
+}
+
+</script>
+
 <style>
   @import Vue from '"https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"';
   @import '../../../../Front/Asset/Css/style.css';

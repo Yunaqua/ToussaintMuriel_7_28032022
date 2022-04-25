@@ -35,6 +35,7 @@ exports.register = (req,res) => {
                     console.log(error);
                 }else{
                     console.log(results);
+                    console.log("User created");
                     return res.render("register", { message :"User created"});
       
                 } 

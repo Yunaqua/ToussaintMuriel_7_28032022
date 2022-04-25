@@ -24,6 +24,7 @@
 
 h1 {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 1em;
@@ -86,9 +87,23 @@ nav a.router-link-active.router-link-exact-active {
 }
 
 /* ----------------  Img et icon ---------------- */
+nav#NavbarComponent img {
+  display: inline-flex;
+}
+
 img.icons {
   width: 15em;
   height: 15em;
+}
+
+span img {
+  display: inline-block;
+  width: 80%;
+}
+
+.accueil-home {
+  display: flex;
+  align-items: center;
 }
 
 /* ----------------  Container ---------------- */
@@ -147,6 +162,11 @@ body {
 .form-row__input::placeholder {
   color: #aaaaaa;
 }
+@media (max-width: 375px) {
+  .form-row {
+    gap: 1em;
+  }
+}
 
 form {
   display: flex;
@@ -163,7 +183,7 @@ form {
 }
 
 .button {
-  background: #fd2d01;
+  background-color: #fd2d01;
   color: white;
   border-radius: 8px;
   font-weight: 800;
@@ -180,13 +200,15 @@ form {
   transition: transform 400ms;
   transform: scale(1.02);
 }
-.button:--disabled {
+
+.disabled {
   background-color: #cecece;
   color: #ececec;
 }
-.button:--disabled:hover {
+.disabled:hover {
   cursor: not-allowed;
   background: #cecece;
+  color: black;
 }
 
 .btn-primary {

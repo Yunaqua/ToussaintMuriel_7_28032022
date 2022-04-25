@@ -18,38 +18,39 @@
                 Register form
             </div>
             <div class="card-body">
-                <form action="/auth/register" method="POST"> 
+                <form> 
                     <div class="form-row">
                         <label for="lastname">Nom</label>
-                        <input type="text" class="form-control" id="lastname" name="lastname">
+                        <input type="text" class="form-control" id="lastname" name="lastname" v-model="nom">
                         <label for="name">Prénom</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control" id="name" name="name" v-model="prenom">
                     </div>
                     <div class="form-row">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email">
+                        <input type="email" class="form-control" id="email" name="email" v-model="email">
                     </div>
                      <div class="form-row">
 
-                        <select v-model="sexe" class="form-row__input" placeholder="Sexe">
+                        <select class="form-row__input" placeholder="Sexe" v-model="sexe">
                             <option value="" disabled selected>Sexe</option>
                             <option value="Unspecified">Indéfini</option>
                             <option value="Male">Homme</option>
                             <option value="Female">Femme</option>
                         </select>
-                    <input v-model="age" class="form-row__input" type="number" min=0 placeholder="Age"/>
+                    <input class="form-row__input" type="number" min=0 placeholder="Age" v-model="age"/>
                     </div>
                     <div class="form-row">
                         <label for="password">Mot de passe</label>
-                        <input type="password" class="form-control" id="password" name="password">
+                        <input type="password" class="form-control" id="password" name="password" v-model="password">
                     </div>
                     <div class="form-row">
                         <label for="passwordConfirm">Mot de passe confirmé </label>
-                        <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm">
+                        <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" v-model="passwordConfirm">
+                        <p v-if="password != '' && password != passwordConfirm">{{badpassword}}</p>
                     </div>
                     
                      <div class="form-row">
-                        <button @click="createAccount()" class="button" :class="{'button--disabled' : !validatedFields}" >
+                        <button @click="createAccount()" class="button" type="submit" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
                             <span v-if="status == 'loading'">Création en cours...</span>
                             <span>Créer mon compte</span>
                         </button>
@@ -57,11 +58,57 @@
                 </form>
             </div>
         </div>
-       <!-- {{#if message}}
-            <h4 class="alert alert-danger mt-4">{{message}}</h4>
-        {{/if}} -->
+
     </div>
 
 
 
 </template>
+
+<script>
+
+export default {
+  name: 'ToLogin',
+  data: function () {
+    return {  
+      nom: '',
+      prenom: '',
+      sexe: '',
+      age: '',
+      email: '',
+      password: '',
+      passwordConfirm: '', 
+
+      badpassword:"Mots de passe différent",
+
+    }
+  }, // action="/auth/register" method="POST"
+  computed: {
+    isDisabled (){
+        if (this.nom != "" && this.prenom != "" && this.age != "" && this.sexe != "" && this.email != "" && this.password.length > 6 && this.password == this.passwordConfirm) {
+          return false;
+        } else {
+          return true;
+        }
+      
+    },
+
+  }, //computed
+  methods: {
+    createAccount :function (){
+      console.log(this.nom, this.prenom, this.sexe, this.age, this.email, this.password, this.passwordConfirm)
+      this.$store.dispatch('createAccount',{  
+        nom: this.nom,
+        prenom: this.prenom,
+        sexe: this.sexe,
+        age: this.age,
+        email: this.email,
+        password: this.password,
+        passwordConfirm: this.passwordConfirm,}
+      )
+    }
+  }//methode
+}
+
+</script>
+

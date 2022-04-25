@@ -39,6 +39,7 @@ $borderradius :16px;
 
 h1 {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 1em;
@@ -102,10 +103,23 @@ nav {
 
 
 /* ----------------  Img et icon ---------------- */
+nav#NavbarComponent img {
+  display: inline-flex;
+}
 
 img.icons {
     width: 15em;
     height: 15em;
+}
+
+span img {
+  display: inline-block;
+  width: 80%;
+}
+
+.accueil-home {
+  display: flex;
+  align-items: center;
 }
 /* ----------------  Container ---------------- */
 
@@ -161,6 +175,9 @@ body {
             color:#aaaaaa;
           }
       }
+      @media (max-width: 375px){
+        gap: 1em;
+      }
   }
 
 form {
@@ -178,31 +195,32 @@ form {
     border-radius: $borderradius;
 }
 
-
 .button {
-    background: $primarycolor;;
-    color:white;
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 15px;
-    border: none;
-    width: 100%;
-    padding: 16px;
-    transition: .4s background-color;
-        &:hover{
-            cursor: pointer;
-            @include black-shadow;
-            
-        }
-        &:--disabled{
-            background-color:#cecece;
-            color:#ececec;
-            &:hover{
-                cursor:not-allowed;
-                background:#cecece;
-            }
-        }
+  background-color: $primarycolor;
+  color:white;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 15px;
+  border: none;
+  width: 100%;
+  padding: 16px;
+  transition: .4s background-color;
+  &:hover{
+    cursor: pointer;
+    @include black-shadow;
+    
   }
+}
+
+.disabled{
+  background-color:#cecece;
+  color:#ececec;
+  &:hover{
+      cursor:not-allowed;
+      background:#cecece;
+      color:black;
+  }}
+
 .btn-primary {
     color: #fff;
     background-color: $primarycolor;
