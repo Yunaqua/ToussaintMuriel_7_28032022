@@ -10,7 +10,7 @@
 
     <link rel="icon" href="Front/Asset/Logo/vueLogo.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
-    <link href="Front/Asset/Css/style.css" type="text/css" rel="stylesheet" />
+    <link href="Front/Asset/Css/styles.css" type="text/css" rel="stylesheet" />
   </head>
   
   <div class ="container mt-4">
@@ -37,7 +37,7 @@
                     </div>
                     
                      <div class="form-row">
-                        <button class="button" type="submit" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
+                        <button @click="logAccount()" class="button" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
                             <span v-if="status == 'loading'">Création en cours...</span>
                             <span>Se connecter à mon compte</span>
                         </button>
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 //form action="/auth/login" method="POST"
 export default {
   name: 'ToLogin',
@@ -68,7 +70,7 @@ export default {
   }, //data
   computed: {
     isDisabled () {
-        if (this.email != "" && this.password.length > 6 && this.password == this.passwordConfirm) {
+        if (this.email != "" && this.password.length >= 6 && this.password == this.passwordConfirm) {
           return false;
         } else {
           return true;
@@ -78,17 +80,23 @@ export default {
 
   }, //computed
   methods: {
-    createAccount :function (){
-      console.log(this.email, this.password)
-    }
+      async logAccount (){
+
+        const reponse = await axios.post('login', {
+          email: this.email,
+          password: this.password
+        });
+
+        console.log(reponse);
+
+    } 
   }//methode
 }
 
 </script>
 
 <style>
-  @import Vue from '"https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"';
-  @import '../../../../Front/Asset/Css/style.css';
+  @import '../../../../Front/Asset/Css/styles.css';
 
 
 </style>

@@ -11,7 +11,7 @@
 
     <link rel="icon" href="Front/Asset/Logo/vueLogo.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
-    <link href="Front/Asset/Css/style.css" type="text/css" rel="stylesheet" />
+    <link href="Front/Asset/Css/styles.css" type="text/css" rel="stylesheet" />
   </head>
   <div id="home" class="home">
 

@@ -10,7 +10,7 @@
 
     <link rel="icon" href="Front/Asset/Logo/vueLogo.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
-    <link href="Front/Asset/Css/style.css" rel="stylesheet" />
+    <link href="Front/Asset/Css/styles.css" rel="stylesheet" />
   </head>
   <div class ="container mt-4">
         <div class="card">
@@ -50,7 +50,7 @@
                     </div>
                     
                      <div class="form-row">
-                        <button @click="createAccount()" class="button" type="submit" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
+                        <button @click="createAccount()" class="button" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
                             <span v-if="status == 'loading'">Création en cours...</span>
                             <span>Créer mon compte</span>
                         </button>
@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
   name: 'ToLogin',
@@ -85,7 +86,7 @@ export default {
   }, // action="/auth/register" method="POST"
   computed: {
     isDisabled (){
-        if (this.nom != "" && this.prenom != "" && this.age != "" && this.sexe != "" && this.email != "" && this.password.length > 6 && this.password == this.passwordConfirm) {
+        if (this.nom != "" && this.prenom != "" && this.age != "" && this.sexe != "" && this.email != "" && this.password.length >= 6 && this.password == this.passwordConfirm) {
           return false;
         } else {
           return true;
@@ -94,20 +95,22 @@ export default {
     },
 
   }, //computed
-  methods: {
-    createAccount :function (){
-      console.log(this.nom, this.prenom, this.sexe, this.age, this.email, this.password, this.passwordConfirm)
-      this.$store.dispatch('createAccount',{  
-        nom: this.nom,
-        prenom: this.prenom,
-        sexe: this.sexe,
-        age: this.age,
-        email: this.email,
-        password: this.password,
-        passwordConfirm: this.passwordConfirm,}
-      )
-    }
+    methods: {
+  
+    async createAccount (){
+
+        const reponse = await axios.post('register', {
+          nom: this.nom,
+          prenom: this.prenom,
+          sexe: this.sexe,
+          age: this.age,
+          email: this.email,
+          password: this.password
+      });
+       console.log(reponse);
+    } 
   }//methode
+
 }
 
 </script>
