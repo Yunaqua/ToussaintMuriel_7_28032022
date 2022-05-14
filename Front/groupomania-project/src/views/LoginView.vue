@@ -35,11 +35,13 @@
                         <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" v-model="passwordConfirm">
                         <p v-if="password != '' && password != passwordConfirm">{{badpassword}}</p>
                     </div>
-                    
+                    <div class="form-row" v-if="status == 'error_login'">
+                      Adresse mail et/ou mot de passe invalide
+                    </div>
                      <div class="form-row">
                         <button @click="logAccount()" class="button" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
-                            <span v-if="status == 'loading'">Création en cours...</span>
-                            <span>Se connecter à mon compte</span>
+                            <span v-if="status == 'loading'">Connexion en cours...</span>
+                            <span v-else>Se connecter à mon compte</span>
                         </button>
                     </div>
                 </form>
@@ -53,7 +55,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+//import axios from 'axios'
+import { mapState } from 'vuex'
 
 //form action="/auth/login" method="POST"
 export default {
@@ -76,20 +79,23 @@ export default {
           return true;
         }
       
-    },
+    }, //disabled
+    ...mapState(['status'])
 
   }, //computed
   methods: {
       async logAccount (){
-
-        const reponse = await axios.post('login', {
-          email: this.email,
-          password: this.password
-        });
-
-        console.log(reponse);
-
-    } 
+        const self=this;
+        this.$store.dispatch('logAccount', {
+        email: this.email,
+        password: this.password,
+      }).then( () => {
+        self.$router.push('profile');
+      }, (error) =>{
+        console.log(error);
+      }
+      )
+    } //createAccount 
   }//methode
 }
 

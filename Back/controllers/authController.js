@@ -1,6 +1,7 @@
 require('dotenv').config();
 const mysql = require('mysql');
 const bcrypt =require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const db = mysql.createConnection({
 
@@ -14,7 +15,7 @@ exports.register = (req,res) => {
     console.log(req.body);
    
 
-    const { name, email, password, passwordConfirm} = req.body;
+    const { nom,prenom,sexe, age, email, password} = req.body;
 
     db.query("SELECT email FROM user WHERE email = ?" ,
         [email], async (error, results) => {//verifie qu'il n'y a pas d'autre utilisateur
@@ -22,25 +23,22 @@ exports.register = (req,res) => {
             console.log(error);
         }
         if( results.length > 0){// results est un tableau
-            return res.render("register", { message :"Email already in use"})
-        } else if( password !== passwordConfirm){
-            return res.render("register", { message :"Passwords do not match"});
+            console.log("Email already in use")
         }
             //-------- password crypt
         let hashedPassword = await bcrypt.hash(password,10);
 
         db.query("INSERT INTO user SET ?", 
-            {name: name, email: email, password : hashedPassword}, (error, results) => {
+            {nom: nom, prenom: prenom, age: age,sexe: sexe, email: email, password : hashedPassword}, (error, results) => {
                 if(error) {
                     console.log(error);
                 }else{
                     console.log(results);
                     console.log("User created");
-                    return res.render("register", { message :"User created"});
       
                 } 
             })//query insert
-
+            console.log("hi"); 
 
     }); //query
 
@@ -51,7 +49,7 @@ exports.register = (req,res) => {
 
  exports.login = (req,res) => {
     console.log(req.body);
-    const { email, password, passwordConfirm} = req.body;
+    const { email, password} = req.body;
    
     db.query("SELECT email FROM user WHERE email = ?" ,
         [email], async (error, results)=> {
@@ -59,13 +57,11 @@ exports.register = (req,res) => {
                 console.log(error);
             }if( results.length == 0){// results est un tableau
                 return res.render("login", { message :"No email in the BDD"})
-            } else if( password !== passwordConfirm){
-                return res.render("login", { message :"Passwords do not match"});
             }
             
             db.query(`SELECT * FROM user WHERE email= ?`, 
             [email], async (error, results)=> {
-                console.log(results);
+                console.log(email +" " +results);
                 let hashedPassword = await bcrypt.hash(password,10);
                 console.log(hashedPassword);
            
@@ -73,9 +69,7 @@ exports.register = (req,res) => {
                     if(!compare) {
                         console.log(error);
                     }else{
-                        console.log("results");
-                        //return res.render("login", { message :"User login"});
-                        return res.render("gg");
+                        console.log("You are log in");
                     }
                 //bcrypt
             });//query

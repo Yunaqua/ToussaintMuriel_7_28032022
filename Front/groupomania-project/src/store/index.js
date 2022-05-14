@@ -1,14 +1,6 @@
-
-
-
-
-
-
-/*
-import Vue from "vue"
+//import Vue from "vue"
 import Vuex from "vuex"
-
-Vue.use(Vuex)
+//Vue.use(Vuex)
 
 const axios = require('axios');
 
@@ -17,36 +9,57 @@ const instance = axios.create({
 });
 
 
-
 export default new Vuex.Store({
-
+  state: {
+    status:'',
+    user:{
+      userId:-1,
+      token:'',
+      email:'',
+      nom:''
+    }
+  },
+  getters: {
+  },
+  mutations: {
+    setStatus : function(state,status){ //set status 31min
+      state.status=status;
+    },
+    logUser:function(state, user) {
+      state.user = user;
+    }
+  },
   actions: {
     createAccount: ({commit}, userInfos) =>{
         commit;
         console.log(userInfos);
         instance.post('/register', userInfos)
           .then(function (response) {
+            commit('setStatus','created');
             console.log(response);
           })
           .catch(function (error) {
+            commit('setStatus','error_create');
             console.log(error);
           });
-    }
-  }
-}) //Vuex.Store*/
-
- /*
-export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
+    },//account
+    logAccount: ({commit}, userInfos) =>{
+      commit('setStatus','loading');
+      console.log(userInfos);
+      instance.post('/login', userInfos)
+        .then(function (response) {
+          commit('setStatus','');
+          commit('logUser',response.data);
+          commit('setStatus','error_login'); 
+          console.log(response);
+        })
+        .catch(function (error) {
+          commit('setStatus','');
+          console.log(error);
+        });
+  }//account
   },
   modules: {
   }
 })
 
-*/

@@ -12,7 +12,7 @@ router.get("/register", (req,res) => {
 });
 
 router.get("/login", (req,res) => {
-	res.render("LoginView")
+	//res.render("LoginView")
 	console.log("in login");
 });
 

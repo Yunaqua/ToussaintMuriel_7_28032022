@@ -16,7 +16,12 @@
 
 </head>
 
-  <nav>
+  <nav v-if="status == 'log_profile'">
+    <router-link to="/">Forum</router-link> |
+    <router-link to="/login">Profile</router-link>
+
+  </nav>
+   <nav v-else>
     <router-link to="/">Home</router-link> |
     <router-link to="/login">Login</router-link> |
     <router-link to="/register">Register</router-link>

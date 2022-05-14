@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import Login from '../views/LoginView.vue';
 import Register from '../views/RegisterView.vue';
+import Profile from '../views/ProfileView.vue';
 import NotFound from '../views/NotFound.vue';
 
 const routes = [
@@ -30,6 +31,15 @@ const routes = [
     meta:{
       title: "Register",
       description:" Page pour créer un nouveau compte sur notre site"
+    }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+    meta:{
+      title: "Profile",
+      description:" Page de profile de l'utilisateur"
     }
   },
   {

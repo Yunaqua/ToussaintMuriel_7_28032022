@@ -33,9 +33,9 @@
 
                         <select class="form-row__input" placeholder="Sexe" v-model="sexe">
                             <option value="" disabled selected>Sexe</option>
-                            <option value="Unspecified">Indéfini</option>
-                            <option value="Male">Homme</option>
-                            <option value="Female">Femme</option>
+                            <option value="Indéfini">Indéfini</option>
+                            <option value="Homme">Homme</option>
+                            <option value="Femme">Femme</option>
                         </select>
                     <input class="form-row__input" type="number" min=0 placeholder="Age" v-model="age"/>
                     </div>
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+//import axios from 'axios'
 
 export default {
   name: 'ToLogin',
@@ -99,16 +99,20 @@ export default {
   
     async createAccount (){
 
-        const reponse = await axios.post('register', {
-          nom: this.nom,
-          prenom: this.prenom,
-          sexe: this.sexe,
-          age: this.age,
-          email: this.email,
-          password: this.password
-      });
-       console.log(reponse);
-    } 
+        this.$store.dispatch('createAccount', {
+        email: this.email,
+        nom: this.nom,
+        prenom: this.prenom,
+        age: this.age,
+        sexe: this.sexe,
+        password: this.password,
+      }).then( () => {
+        self.$router.push('profile');
+      }, (error) =>{
+        console.log(error);
+      }
+      )
+    } //createAccount
   }//methode
 
 }
