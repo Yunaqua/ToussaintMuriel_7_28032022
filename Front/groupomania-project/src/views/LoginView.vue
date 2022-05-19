@@ -30,16 +30,12 @@
                         <label for="password">Mot de passe</label>
                         <input type="password" class="form-control" id="password" name="password"  v-model="password">
                     </div>
-                    <div class="form-row">
-                        <label for="passwordConfirm">Mot de passe confirmé </label>
-                        <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" v-model="passwordConfirm">
-                        <p v-if="password != '' && password != passwordConfirm">{{badpassword}}</p>
-                    </div>
+                   
                     <div class="form-row" v-if="status == 'error_login'">
                       Adresse mail et/ou mot de passe invalide
                     </div>
                      <div class="form-row">
-                        <button @click="logAccount()" class="button" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
+                        <button @click="logAccount()" class="button" >
                             <span v-if="status == 'loading'">Connexion en cours...</span>
                             <span v-else>Se connecter à mon compte</span>
                         </button>
@@ -72,14 +68,6 @@ export default {
     }
   }, //data
   computed: {
-    isDisabled () {
-        if (this.email != "" && this.password.length >= 6 && this.password == this.passwordConfirm) {
-          return false;
-        } else {
-          return true;
-        }
-      
-    }, //disabled
     ...mapState(['status'])
 
   }, //computed
@@ -90,7 +78,8 @@ export default {
         email: this.email,
         password: this.password,
       }).then( () => {
-        self.$router.push('profile');
+        self.$router.push('homepost');
+        console.log(self);
       }, (error) =>{
         console.log(error);
       }

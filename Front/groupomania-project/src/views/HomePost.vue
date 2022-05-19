@@ -1,8 +1,8 @@
 <template>
 <div class ="container mt-4">
   <div class="card">
-    <h1 class="card__title">Espace Perso</h1>
-    <p class="card__subtitle">Voilà donc qui je suis...</p>
+    <h1 class="card__title">Page d'accueil</h1>
+    <p class="card__subtitle">Voici les nouveaux commentaire</p>
     <!--<p>{{user.prenom}} {{user.nom}} {{user.email}}</p>
     <img :src="user.photo"/> -->
     <div class="form-row">
@@ -26,10 +26,6 @@ export default {
     this.$store.dispatch('getUserInfos');
     
   }//mounted
-  ,computed: {
-        getUserName(){
-          return this.$store.state.user.nom
-        }
-    } 
+
 }
 </script>

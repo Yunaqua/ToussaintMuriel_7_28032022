@@ -107,7 +107,7 @@ export default {
         sexe: this.sexe,
         password: this.password,
       }).then( () => {
-        self.$router.push('profile');
+        self.$router.push('homepost');
       }, (error) =>{
         console.log(error);
       }

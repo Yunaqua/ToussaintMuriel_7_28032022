@@ -52,6 +52,7 @@ export default new Vuex.Store({
           commit('logUser',response.data);
           commit('setStatus','error_login'); 
           console.log(response);
+          //console.log(state.user);
         })
         .catch(function (error) {
           commit('setStatus','');

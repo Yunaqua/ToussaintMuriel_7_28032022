@@ -23,7 +23,8 @@ exports.register = (req,res) => {
             console.log(error);
         }
         if( results.length > 0){// results est un tableau
-            console.log("Email already in use")
+            console.log("Email already in use");
+            return res.status(400).json({ msg: 'Email déjà utilisé!' });
         }
             //-------- password crypt
         let hashedPassword = await bcrypt.hash(password,10);
@@ -33,6 +34,7 @@ exports.register = (req,res) => {
                 if(error) {
                     console.log(error);
                 }else{
+                    return res.status(201).json({ msg: 'Utilisateur crée!' });
                     console.log(results);
                     console.log("User created");
       
@@ -48,7 +50,7 @@ exports.register = (req,res) => {
 
 
  exports.login = (req,res) => {
-    console.log(req.body);
+    //console.log(req.body);
     const { email, password} = req.body;
    
     db.query("SELECT email FROM user WHERE email = ?" ,
@@ -56,19 +58,36 @@ exports.register = (req,res) => {
             if(error) {
                 console.log(error);
             }if( results.length == 0){// results est un tableau
-                return res.render("login", { message :"No email in the BDD"})
+                return res.status(401).json({ error: "L'email est incorrect !" });
             }
             
-            db.query(`SELECT * FROM user WHERE email= ?`, 
+            db.query(`SELECT password FROM user WHERE email= ?`, 
             [email], async (error, results)=> {
-                console.log(email +" " +results);
-                let hashedPassword = await bcrypt.hash(password,10);
-                console.log(hashedPassword);
+                //console.log(email +" " +results[0].password);
            
-               const compare =  bcrypt.compare(hashedPassword, results[0].password)
+               const compare = await bcrypt.compare(password, results[0].password)
+               console.log(compare +" resultat compare")
                     if(!compare) {
+                        return res.status(401).json({ error: 'Mot de passe incorrect !' });
                         console.log(error);
                     }else{
+                        db.query("SELECT id FROM user WHERE email = ?" ,
+                            [email], async (error, results)=> {
+                                if(error){
+                                    return res.status(401).json({ error: "Erreur d'utilisateur !" });
+                                    console.log(error);
+                                }else{
+                                    //console.log(results[0].id);
+                                    const token = jwt.sign({id:results[0].id},'SECRET-KEY',{ expiresIn: '12h' });
+                                    return res.status(200).send({
+                                        msg: 'Logged in!',
+                                        token,
+                                        user: results[0]
+                                    });
+                                }
+                                
+                            }
+                        )//db query
                         console.log("You are log in");
                     }
                 //bcrypt
