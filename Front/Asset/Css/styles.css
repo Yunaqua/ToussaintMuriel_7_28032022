@@ -46,6 +46,7 @@ label {
 }
 
 nav {
+  margin: 15px;
   padding: 20px;
   background-color: #fd2d01;
   border-radius: 16px;
@@ -125,9 +126,9 @@ body {
 .card {
   max-width: 100%;
   max-width: 540px;
-  background: white;
+  background: #f7f7f7;
   border-radius: 16px;
-  padding: 32px;
+  padding: 20px;
   animation: apparition 0.4s cubic-bezier(0.43, 0, 0.82, 1) forwards;
 }
 

@@ -61,6 +61,7 @@ h1 {
 }
 
 nav {
+    margin: 15px;
     padding: 20px;
     background-color: $primarycolor;
     border-radius:$borderradius;
@@ -141,9 +142,9 @@ body {
 .card {
     max-width: 100%;
     max-width: 540px;
-    background:white;
+    background: #f7f7f7;
     border-radius: $borderradius;
-    padding:32px;
+    padding:20px;
     animation: apparition 0.4s cubic-bezier(.43,0,.82,1) forwards;
   }
 .card-header{

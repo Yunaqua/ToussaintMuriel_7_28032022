@@ -2,6 +2,7 @@ require('dotenv').config();
 const mysql = require('mysql');
 const bcrypt =require('bcryptjs');
 const jwt = require('jsonwebtoken');
+var models    = require('../models');
 
 const db = mysql.createConnection({
 
@@ -13,43 +14,45 @@ const db = mysql.createConnection({
 
 exports.register = (req,res) => {
     console.log(req.body);
-   
-
+    
     const { nom,prenom,sexe, age, email, password} = req.body;
 
-    db.query("SELECT email FROM user WHERE email = ?" ,
-        [email], async (error, results) => {//verifie qu'il n'y a pas d'autre utilisateur
-        if(error) {
-            console.log(error);
+    models.User.findOne({
+        attributes : ['email'],
+        where : {email: email}
+    })
+    .then( function(userFound) {
+        if(!userFound){
+            bcrypt.hash(password,10, function(err, bcryptedPassword) {
+                var newUser = models.User.create({
+                    nom : nom,
+                    prenom : prenom,
+                    email : email,
+                    sexe : sexe,
+                    age : age,
+                    password : bcryptedPassword,
+                    isAdmin : 0
+                })
+                .then(function(newUser) {
+                    return res.status(201).json({'userId' : newUser.id})
+                })
+                .catch( function(err) {
+                    return res.status(500).json({ 'error' :"Ajout impossible"});
+                });
+            });//bcrypt
+        }else{
+            return res.status(400).send({'error' :"L'adresse email existe déja"})
         }
-        if( results.length > 0){// results est un tableau
-            console.log("Email already in use");
-            return res.status(400).json({ msg: 'Email déjà utilisé!' });
-        }
-            //-------- password crypt
-        let hashedPassword = await bcrypt.hash(password,10);
 
-        db.query("INSERT INTO user SET ?", 
-            {nom: nom, prenom: prenom, age: age,sexe: sexe, email: email, password : hashedPassword}, (error, results) => {
-                if(error) {
-                    console.log(error);
-                }else{
-                    return res.status(201).json({ msg: 'Utilisateur crée!' });
-                    console.log(results);
-                    console.log("User created");
-      
-                } 
-            })//query insert
-            console.log("hi"); 
-
-    }); //query
-
-   
+    })
+    .then( function(err) {
+        return res.status(500).send({'error': "L'adresse email ne convient pas"});
+    })
     
-    }//export
+}//export
 
 
- exports.login = (req,res) => {
+exports.login = (req,res) => {
     //console.log(req.body);
     const { email, password} = req.body;
    
@@ -79,6 +82,7 @@ exports.register = (req,res) => {
                                 }else{
                                     //console.log(results[0].id);
                                     const token = jwt.sign({id:results[0].id},'SECRET-KEY',{ expiresIn: '12h' });
+                                    let localstorage = "";
                                     return res.status(200).send({
                                         msg: 'Logged in!',
                                         token,
@@ -93,17 +97,6 @@ exports.register = (req,res) => {
                 //bcrypt
             });//query
            
-        /*
-            db.query(`SELECT * FROM user WHERE email=${email} AND password = ${hashedPassword}`, 
-            {email: email, password : hashedPassword}, (error, results) => {
-                if(error) {
-                    console.log(error);
-                }else{
-                    console.log(results);
-                    return res.render("login", { message :"User login"});
-      
-                
-            })//query insert } */
 
     });//query
 

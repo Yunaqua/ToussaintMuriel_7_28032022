@@ -16,35 +16,32 @@
 
 </head>
 
-  <nav v-if="status == 'log_profile'">
-    <router-link to="/">Forum</router-link> |
-    <router-link to="/login">Profile</router-link>
-
-  </nav>
-   <nav v-else>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/login">Login</router-link> |
-    <router-link to="/register">Register</router-link>
-
-  </nav>
-
- 
-  <router-view/>
-
-    <div class="HomePage">
-    <HelloWorld />
-    </div>
-
-
+  <div id="app">
+    <NavBar />
+  </div>
 
 
 </template>
 
 
 <script>
+  import NavBar from "@/components/NavBar.vue";
   import { mapState } from 'vuex'
+  import axios from 'axios'
 
   export default {
+    data() {
+    return {user :null}
+  },
+  async created(){
+    const response = await axios.get('user');
+    this.user = response.data;
+  },
+    props :['users'],
+
+    components: {
+      NavBar,
+  },
     computed: {
     ...mapState(['status'])
     }
@@ -57,5 +54,4 @@
 <style>
   @import '../../../Front/Asset/Css/styles.css';
   
-
 </style>

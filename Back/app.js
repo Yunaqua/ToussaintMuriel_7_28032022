@@ -45,14 +45,14 @@ app.use((req, res, next) => {
 	next();
   });
 
+/*
+const dbmodel = require("./models");
+dbmodel.sequelize.sync();*/
+
 //Les routes
 
 app.use("/", require("./routes/pages"))
 app.use("/auth", require("./routes/auth"))
-
-app.listen(5001, () => {
-	console.log("Server on port 5001");
-});
 
 
 module.exports = app;

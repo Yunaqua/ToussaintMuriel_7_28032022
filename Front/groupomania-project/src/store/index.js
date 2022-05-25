@@ -50,7 +50,6 @@ export default new Vuex.Store({
         .then(function (response) {
           commit('setStatus','');
           commit('logUser',response.data);
-          commit('setStatus','error_login'); 
           console.log(response);
           //console.log(state.user);
         })

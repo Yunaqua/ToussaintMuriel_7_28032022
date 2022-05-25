@@ -38,7 +38,8 @@
 export default {
   //msg=" Hola!"   <h1>Bienvenue chez Groupomania! </h1>
   name: 'HelloWorld',
-  props :{
+  
+  props : {
     msg :{
       type: String,
       default:" Vous êtes sur la page d'accueil !",

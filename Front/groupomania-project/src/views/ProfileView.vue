@@ -17,6 +17,9 @@
 <script>
 export default {
   name :'UserProfile',
+  data() {
+    return {user :null}
+  },
   mounted: function () {
     console.log(this.$store.state.user);
     if(this.$store.state.userId == -1) {  //deconnecté
