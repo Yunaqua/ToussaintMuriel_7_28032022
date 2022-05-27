@@ -13,10 +13,11 @@ export default new Vuex.Store({
   state: {
     status:'',
     user:{
-      userId:-1,
+      id:-1,
       token:'',
       email:'',
-      nom:''
+      nom:'',
+      prenom:''
     }
   },
   getters: {
@@ -51,13 +52,18 @@ export default new Vuex.Store({
           commit('setStatus','');
           commit('logUser',response.data);
           console.log(response);
-          //console.log(state.user);
+          const newuser = response.data.user;
+          window.localStorage.setItem('user', JSON.stringify(newuser));
         })
         .catch(function (error) {
           commit('setStatus','');
           console.log(error);
         });
   }//account
+  ,logOut: ({commit}, userInfos) => {
+    console.log(userInfos);
+    commit('setStatus','deconnexion');
+    },
   },
   modules: {
   }

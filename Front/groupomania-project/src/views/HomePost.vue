@@ -1,4 +1,5 @@
 <template>
+
 <div class ="container mt-4">
   <div class="card">
     <h1 class="card__title">Page d'accueil</h1>
@@ -79,7 +80,7 @@
           </div>
           <div>
             <div class="message-sent ">
-              <b>Name 3 </b><p> Hé salut. Ok je n'hésiterai pas</p>
+              <b>{{userData.nom}}</b><p> Hé salut. Ok je n'hésiterai pas</p>
             </div>
             <div class="message-group-time">
               <p>Date du dernier message : xx/xx/xxxx à xx h xx</p>
@@ -93,7 +94,7 @@
         </div>
       </div>
     <div class="form-row">
-      <button @click="logout()" class="button">
+      <button @click="logOut()" class="button">
         Déconnexion
       </button>
     </div>
@@ -104,8 +105,14 @@
 <script>
 export default {
   name :'PostProfile',
+   data: function () {
+     
+    return {
+      userData:'',
 
-  props :['user'],
+    }
+  }, //data 
+  //props :['user'],
   
   mounted: function () {
     console.log(this.$store.state.user);
@@ -113,10 +120,49 @@ export default {
       this.$router.push('/');
       return ;
     }
-    this.$store.dispatch('getUserInfos');
+    else if(localStorage.getItem('user') != null){
+          let userData = JSON.parse(localStorage.getItem("user"));
+          //console.log(userData.nom, " nom");
+          this.userData= userData;
+
+          }
+
+     
+    //this.$store.dispatch('getUserInfos');
+    /*console.log(this.$store.state.user.token + " c'est le token");
+    console.log(this.$store.state.user.user.id , " c'est l'id");
+    console.log(this.$store.state.user.user  , " c'est l'user");
+    console.log(this.$store.state.user.user.prenom , " c'est le prenom"); */
     
   }//mounted
+ , 
+   methods: {
+      
+      
+      async logOut (){
+        const self=this;
+        this.$store.dispatch('logOut', {
+          
+      }).then( () => {
+        localStorage.clear(),
+        self.$router.push('/');
+      }, (error) =>{
+        console.log(error);
+      }
+      )
+    } //logOut 
+  /*  ,
+      ShowData(){ 
+         if(localStorage.getItem('user') != null){
+          let userData = JSON.parse(localStorage.getItem("user"));
+          console.log(userData.nom, " nom");
+          return userData;
 
+          }
+
+      } */
+       
+  }//methode
 }
 </script>
 <style scoped>

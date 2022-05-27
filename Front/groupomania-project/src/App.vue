@@ -10,7 +10,7 @@
 
     <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
 
-    <link rel="icon" href="/Asset/Logo/vueLogo.png" />
+    <link rel="icon" type="image/png" href="../../Asset/Logo/icon-groupomania.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
     
 
@@ -25,6 +25,7 @@
 
 
 <script>
+
   import NavBar from "@/components/NavBar.vue";
   import { mapState } from 'vuex'
   import axios from 'axios'
@@ -52,6 +53,7 @@
 </script>
 
 <style>
+
   @import '../../../Front/Asset/Css/styles.css';
   
 </style>

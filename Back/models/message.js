@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   var Message = sequelize.define('Message', {
     idUsers: DataTypes.INTEGER,
     title: DataTypes.STRING,
-    content: DataTypes.STRING
+    content: DataTypes.STRING,
     
   }, {
     classMethods :{

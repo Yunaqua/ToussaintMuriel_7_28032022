@@ -4,16 +4,29 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dbc  = require('./db/dbConnection');
 const path = require('path');
+const sequelize = require('sequelize');
 
 const app =express();
-
+/*
 const db = mysql.createConnection({
 
 	host     : 'localhost',
 	user     : 'root',
 	password : process.env.MYSQL_MDP,
 	database : process.env.MYSQL_DATABASE
-})
+}) */
+
+const db = new sequelize ( "db_master", "db_user", "password",  {
+	host: 'localhost',
+	password : process.env.MYSQL_MDP,
+	dialect : 'mysql'
+
+});
+
+db.sync({});
+
+module.export = db;
+
 
 const publicDirectory = path.join(__dirname , '..\Front\Asset\Css');
 app.use(express.static(publicDirectory));
@@ -29,7 +42,7 @@ app.set('views', path.join(__dirname, '../Front/groupomania-project/src/views'))
 app.set('view engine', 'ejs');
 
 
-
+/*
 db.connect ( (error) => {
 	if(error){
 		console.log(error)
@@ -37,7 +50,7 @@ db.connect ( (error) => {
 		console.log("Mysl connection")
 	}
 })
-
+ */
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*'); // tous le monde à acces à l'api
 	res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');

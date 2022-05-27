@@ -69,7 +69,7 @@ exports.login = (req,res) => {
                 //console.log(email +" " +results[0].password);
            
                const compare = await bcrypt.compare(password, results[0].password)
-               console.log(compare +" resultat compare")
+               //console.log(compare +" resultat compare")
                     if(!compare) {
                         return res.status(401).json({ error: 'Mot de passe incorrect !' });
                         console.log(error);
@@ -82,21 +82,25 @@ exports.login = (req,res) => {
                                 }else{
                                     //console.log(results[0].id);
                                     const token = jwt.sign({id:results[0].id},'SECRET-KEY',{ expiresIn: '12h' });
-                                    let localstorage = "";
-                                    return res.status(200).send({
-                                        msg: 'Logged in!',
-                                        token,
-                                        user: results[0]
-                                    });
+                                    
+                                    db.query("SELECT * FROM user WHERE email= ?", 
+                                        [email], async (error, results)=> {
+                                            return res.status(200).send({
+                                                msg: 'Logged in!',
+                                                token,
+                                                user: results[0]
+                                            });
+                                        })//dbquery all data
+                                   
                                 }
                                 
                             }
-                        )//db query
+                        )//db query select id
+                        
                         console.log("You are log in");
                     }
                 //bcrypt
             });//query
-           
 
     });//query
 
