@@ -1,8 +1,9 @@
 <template>
   
-  <nav v-if="user">
-    <router-link to="/">Forum</router-link> |
-    <router-link to="/login">Profile</router-link>
+  <nav v-if="isLogged">
+    <router-link to="/homepost">Forum</router-link> |
+    <router-link to="/profile">Profile</router-link> |
+    <router-link to="/"><span @click="logOut()">Déconnexion</span></router-link>
 
   </nav>
    <nav v-else>
@@ -21,6 +22,31 @@ export default {
   name: 'NavBar',
   props: {
     msg: String
+  },
+   computed: {
+    isLogged (){
+        if(localStorage.getItem('user') != null) {
+          return true;
+        } else {
+          return false;
+        }
+      
+    },
+    methods: {
+      async logOut (){
+        const self=this;
+        this.$store.dispatch('logOut', {
+          
+      }).then( () => {
+        localStorage.clear(),
+        self.$router.push('/');
+      }, (error) =>{
+        console.log(error);
+      }
+      )
+    } //logOut 
+  }//methode
+
   }
 }
 </script>

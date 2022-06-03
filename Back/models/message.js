@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     idUsers: DataTypes.INTEGER,
     title: DataTypes.STRING,
     content: DataTypes.STRING,
+    dateCreated: DataTypes.DATE,
     
   }, {
     classMethods :{
