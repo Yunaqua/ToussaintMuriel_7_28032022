@@ -34,11 +34,17 @@ module.exports = function(sequelize, DataTypes)  {
       type: DataTypes.STRING
     },
     isAdmin: {
-      allowNull:true,
-      type: DataTypes.BOOLEAN
+      allowNull:false,
+      type: DataTypes.BOOLEAN,
+      defaultValue : 0
     }
     
   }, {
+    // disable the modification of table names; By default, sequelize will automatically
+    // transform all passed model names (first parameter of define) into plural.
+    // if you don't want that, set the following
+    freezeTableName: true,
+  },{
     classMethods :{
       associate :function(models) {
         models.User.hasMany(models.Message);

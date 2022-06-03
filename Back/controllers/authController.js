@@ -1,13 +1,18 @@
 require('dotenv').config();
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const bcrypt =require('bcryptjs');
 const jwt = require('jsonwebtoken');
-var models    = require('../models');
+var models = require('../models');
+const path = require('path'); 
+
+
+//Get Page model
+var User = require('../models').User;
 
 const db = mysql.createConnection({
 
 	host     : 'localhost',
-	user     : 'root',
+	user     : process.env.MYSQL_USER,
 	password : process.env.MYSQL_MDP,
 	database : process.env.MYSQL_DATABASE
 })
@@ -16,11 +21,11 @@ exports.register = (req,res) => {
     console.log(req.body);
     
     const { nom,prenom,sexe, age, email, password} = req.body;
+    //console.log( ' <=> ' , email);
 
-    models.User.findOne({
-        attributes : ['email'],
-        where : {email: email}
-    })
+    User.findOne({
+        where: {email: req.body.email}
+        })
     .then( function(userFound) {
         if(!userFound){
             bcrypt.hash(password,10, function(err, bcryptedPassword) {
@@ -35,6 +40,7 @@ exports.register = (req,res) => {
                 })
                 .then(function(newUser) {
                     return res.status(201).json({'userId' : newUser.id})
+                    console.log('Utilisateur créer')
                 })
                 .catch( function(err) {
                     return res.status(500).json({ 'error' :"Ajout impossible"});

@@ -1,36 +1,38 @@
-'use strict';
 require('dotenv').config();
-var fs        = require('fs');
-var path      = require('path');
-var Sequelize = require('sequelize');
-var basename  = path.basename('index.js');
-var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config.json')[env];
-var db        = {};
+const path = require('path'); 
+const {Sequelize, DataTypes} = require('sequelize');
+const dbConfig = require('../db/dbconnection.js');
+const mysql = require('mysql');
 
-if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable]);
-} else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USER, process.env.MYSQL_MDP ,
+{
+  host: dbConfig.host,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_USER,
+  dialect: "mysql",
+  operatorsAliases: false,//ovewrite all the errors
+  pool: {
+		max : 5,
+		min: 0,
+		acquire: 30000,
+    idle: 10000
+	} 
+      
 }
+);
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    var model = sequelize['import'](path.join(__dirname, file));
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
-
+sequelize.authenticate()
+.then(() =>{
+  console.log('connected');
+})
+.catch(err => {
+  console.log('Error' +err);
+}) 
+const db = {} 
+db.Sequelize =Sequelize; 
 db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+
+db.User = require("./user")(sequelize, Sequelize);
+//db.tuto = require("./tuto.js")(sequelize, Sequelize); 
 
 module.exports = db;
