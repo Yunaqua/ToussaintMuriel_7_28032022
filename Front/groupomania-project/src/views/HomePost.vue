@@ -122,7 +122,6 @@ export default {
     }
     else if(localStorage.getItem('user') != null){
           let userData = JSON.parse(localStorage.getItem("user"));
-          //console.log(userData.nom, " nom");
           this.userData= userData;
 
           }
@@ -137,8 +136,7 @@ export default {
   }//mounted
  , 
    methods: {
-      
-      
+    
       async logOut (){
         const self=this;
         this.$store.dispatch('logOut', {

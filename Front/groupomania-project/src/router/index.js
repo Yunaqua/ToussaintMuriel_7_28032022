@@ -4,7 +4,9 @@ import Login from '../views/LoginView.vue';
 import Register from '../views/RegisterView.vue';
 import HomePost from '../views/HomePost.vue';
 import Profile from '../views/ProfileView.vue';
+import Update from '../views/ProfileEdit.vue';
 import NotFound from '../views/NotFound.vue';
+
 
 const routes = [
   {
@@ -50,6 +52,15 @@ const routes = [
     meta:{
       title: "Profile",
       description:" Page de profile de l'utilisateur"
+    }
+  },
+  {
+    path: '/update',
+    name: 'update',
+    component: Update,
+    meta:{
+      title: "Update",
+      description:" Modifiez vos données d'utilisateur"
     }
   },
   {

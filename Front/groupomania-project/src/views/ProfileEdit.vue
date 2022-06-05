@@ -18,9 +18,9 @@
         </thead>
         <tbody>
           <tr>
-            <td>{{userData.nom}}</td>
-            <td>{{userData.prenom}}</td>
-            <td>{{userData.email}}</td>
+            <td><input type="text" class="form-control" id="nom" name="nom" :placeholder="[userData.nom]" v-model="nom"></td>
+            <td><input type="text" class="form-control" id="prenom" name="prenom" :placeholder="[userData.prenom]" v-model="age"></td>
+            <td><input type="email" class="form-control" id="email" name="email" :placeholder="[userData.email]" v-model="email"></td>
           </tr>
           
           <tr class="thead-light">
@@ -29,8 +29,8 @@
             <th scope="col"></th>
           </tr>
           <tr>
-            <td>{{userData.age}}</td>
-            <td>{{userData.sexe}}</td>
+            <td><input type="number" min=0 max=120 class="form-control" id="age" name="age" :placeholder="[userData.age]" v-model="age"></td>
+            <td><input type="text" class="form-control" id="sexe" name="sexe" :placeholder="[userData.sexe]" v-model="age"></td>
             <td></td>
           </tr>
         </tbody>
@@ -54,7 +54,7 @@
     </div>
     
     <p class="card__subtitle">Voilà mes informations personnelles</p>
-    <div><span class="update"><router-link to="/update">Modifier mon profil</router-link></span></div>
+    <div><span class="update"><router-link to="/profile">Sauvegarder mon profil</router-link></span></div>
     
     <img :src="userData.photo"/> 
     <div class="form-row">

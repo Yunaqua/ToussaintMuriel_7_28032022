@@ -3,14 +3,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="css/bootstrap.css">
 
     <link rel="icon" href="Front/Asset/Logo/vueLogo.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
-    <link href="Front/Asset/Css/styles.css" rel="stylesheet" />
   </head>
   <div class ="container mt-4">
         <div class="card">
@@ -37,7 +32,7 @@
                             <option value="Homme">Homme</option>
                             <option value="Femme">Femme</option>
                         </select>
-                    <input class="form-row__input" type="number" min=0 placeholder="Age" v-model="age"/>
+                    <input class="form-row__input" type="number" min=0 max=120 placeholder="Age" v-model="age"/>
                     </div>
                     <div class="form-row">
                         <label for="password">Mot de passe</label>
