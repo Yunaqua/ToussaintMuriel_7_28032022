@@ -1,4 +1,6 @@
 'use strict';
+//const {udv4 : uuidv4} = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = function(sequelize, DataTypes)  {
   var User = sequelize.define('User', {
@@ -8,6 +10,12 @@ module.exports = function(sequelize, DataTypes)  {
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
+    },
+    uuid: {
+      allowNull:false,
+      type: DataTypes.UUID,
+      defaultValue: uuidv4,
+      isUUID : 4
     },
     email: {
       allowNull:false,

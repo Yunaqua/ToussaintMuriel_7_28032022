@@ -40,7 +40,7 @@ exports.register = (req,res) => {
                 })
                 .then(function(newUser) {
                     return res.status(201).json({'userId' : newUser.id})
-                    console.log('Utilisateur créer')
+                    console.log('Utilisateur créer');
                 })
                 .catch( function(err) {
                     return res.status(500).json({ 'error' :"Ajout impossible"});
@@ -51,7 +51,7 @@ exports.register = (req,res) => {
         }
 
     })
-    .then( function(err) {
+    .catch( function(err) {
         return res.status(500).send({'error': "L'adresse email ne convient pas"});
     })
     
@@ -72,10 +72,9 @@ exports.login = (req,res) => {
             
             db.query(`SELECT password FROM user WHERE email= ?`, 
             [email], async (error, results)=> {
-                //console.log(email +" " +results[0].password);
            
                const compare = await bcrypt.compare(password, results[0].password)
-               //console.log(compare +" resultat compare")
+               
                     if(!compare) {
                         return res.status(401).json({ error: 'Mot de passe incorrect !' });
                         console.log(error);

@@ -82,7 +82,6 @@ export default {
       return ;
     }else if(localStorage.getItem('user') != null){
           let userData = JSON.parse(localStorage.getItem("user"));
-          //console.log(userData.nom, " nom");
           this.userData= userData;
 
           }

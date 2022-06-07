@@ -15,10 +15,10 @@
             <div class="card-body">
                 <form> 
                     <div class="form-row">
-                        <label for="lastname">Nom</label>
-                        <input type="text" class="form-control" id="lastname" name="lastname" v-model="nom">
-                        <label for="name">Prénom</label>
-                        <input type="text" class="form-control" id="name" name="name" v-model="prenom">
+                        <label for="nom">Nom</label>
+                        <input type="text" class="form-control" id="nom" name="nom" v-model="nom">
+                        <label for="prenom">Prénom</label>
+                        <input type="text" class="form-control" id="prenom" name="prenom" v-model="prenom">
                     </div>
                     <div class="form-row">
                         <label for="email">Email</label>
