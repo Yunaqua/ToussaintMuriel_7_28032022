@@ -47,7 +47,7 @@
           </div>
           <div class="form-col">
             <div class="title">Admin</div>
-            <div v-if="userData.isAdmin==true">Oui</div>
+            <div v-if="userData.isAdmin == 49">Oui</div>
             <div v-else>Non</div>
           </div>
         </div>
@@ -55,7 +55,7 @@
     
     <p class="card__subtitle">Voilà mes informations personnelles</p>
     <div><span class="update"><router-link to="/update">Modifier mon profil</router-link></span></div>
-    
+    <div><span class="delete">&#x2757; &#9888;&#65039; Supprimer définitivement mon profil &#9888;&#65039; &#x2757;</span></div>
     <img :src="userData.photo"/> 
     <div class="form-row">
       <button @click="logOut()" class="button">
@@ -139,6 +139,10 @@ export default {
 
   .update{
     color:blue;
+    font-weight:bold;
+  }
+  .delete{
+    color:red;
     font-weight:bold;
   }
   .update:hover{

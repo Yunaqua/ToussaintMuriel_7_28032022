@@ -66,7 +66,8 @@ dbmodel.sequelize.sync();*/
 
 //Les routes
 
-app.use("/", require("./routes/pages"))
+app.use("/", require("./routes/msg"))
+app.use("/user", require("./routes/user"))
 app.use("/auth", require("./routes/auth"))
 
 

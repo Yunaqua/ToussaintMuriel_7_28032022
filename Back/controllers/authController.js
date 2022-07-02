@@ -2,12 +2,12 @@ require('dotenv').config();
 const mysql = require('mysql2');
 const bcrypt =require('bcryptjs');
 const jwt = require('jsonwebtoken');
-var models = require('../models');
+let models = require('../models');
 const path = require('path'); 
 
 
 //Get Page model
-var User = require('../models').User;
+let User = require('../models').User;
 
 const db = mysql.createConnection({
 
@@ -39,7 +39,7 @@ exports.register = (req,res) => {
                     isAdmin : 0
                 })
                 .then(function(newUser) {
-                    return res.status(201).json({'userId' : newUser.id})
+                    return res.status(201).json({'Création du profil , userId' : newUser.id})
                     console.log('Utilisateur créer');
                 })
                 .catch( function(err) {
@@ -60,53 +60,36 @@ exports.register = (req,res) => {
 
 exports.login = (req,res) => {
     //console.log(req.body);
-    const { email, password} = req.body;
-   
-    db.query("SELECT email FROM user WHERE email = ?" ,
-        [email], async (error, results)=> {
-            if(error) {
-                console.log(error);
-            }if( results.length == 0){// results est un tableau
-                return res.status(401).json({ error: "L'email est incorrect !" });
-            }
-            
-            db.query(`SELECT password FROM user WHERE email= ?`, 
-            [email], async (error, results)=> {
-           
-               const compare = await bcrypt.compare(password, results[0].password)
-               
-                    if(!compare) {
-                        return res.status(401).json({ error: 'Mot de passe incorrect !' });
-                        console.log(error);
-                    }else{
-                        db.query("SELECT id FROM user WHERE email = ?" ,
-                            [email], async (error, results)=> {
-                                if(error){
-                                    return res.status(401).json({ error: "Erreur d'utilisateur !" });
-                                    console.log(error);
-                                }else{
-                                    //console.log(results[0].id);
-                                    const token = jwt.sign({id:results[0].id},'SECRET-KEY',{ expiresIn: '12h' });
-                                    
-                                    db.query("SELECT * FROM user WHERE email= ?", 
-                                        [email], async (error, results)=> {
-                                            return res.status(200).send({
-                                                msg: 'Logged in!',
-                                                token,
-                                                user: results[0]
-                                            });
-                                        })//dbquery all data
-                                   
-                                }
-                                
-                            }
-                        )//db query select id
-                        
-                        console.log("You are log in");
-                    }
-                //bcrypt
-            });//query
+    var { email, password} = req.body;
+    console.log(req.body.email);
 
-    });//query
+    User.findOne({
+        where: {email: req.body.email}
+        })
+    .then(user => {
+        console.log(user,": email");
+
+        const comparepwd = bcrypt.compare(password, user.password);
+        if(!comparepwd){
+            return res.status(401).json({msg :' Mot de passe incorrect !'});
+        }else{
+            console.log(user.dataValues);
+            //return res.status(201).json({msg :' Bon mot de passe'});
+            return res.status(200).send({
+                msg: 'Logged in!',
+                "id" : user.uuid,
+                "token" : jwt.sign({
+                    "id" : user.uuid,
+                    "admin":user.isAdmin 
+                }
+                ,"SECRET_KEY",
+                { expiresIn : '24h'}
+                )
+                , user : user.dataValues
+            });
+            console.log('Vous êtes connecté');
+        }//else
+    });
+    
 
 }//export

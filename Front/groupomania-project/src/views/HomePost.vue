@@ -5,6 +5,14 @@
     <h1 class="card__title">Page d'accueil</h1>
     <p class="card__subtitle">Voici les nouveaux commentaire</p>
 
+    <div class="message-group">
+      <div class ="newpost">
+        <label>Poster un nouveau message</label>
+        <textarea rows = "1" cols = "40" name = "description" class="newpost-input" v-model="message" placeholder="Ecrivez votre message"></textarea>
+        <button @onclick=msgpost() id="poster">Poster le message</button>
+      </div>
+    </div>
+
       <div class="message-group">
         <div class="message-group-received">
             <div>
@@ -108,6 +116,8 @@ export default {
    data: function () {
      
     return {
+      titre:'',
+      message:'',
       userData:'',
 
     }
@@ -168,8 +178,8 @@ export default {
   .message-group {
       background: white;
       border: black 1px solid;
-      padding: 5px;
       margin-bottom: 2em;
+      border-radius: 10px;
   }
 
   .message-sent{
@@ -250,5 +260,21 @@ export default {
     border:1px solid #719ECE;
     box-shadow: 0 0 10px red;
   }
+  .newpost {
+    display: flex;
+    flex-direction: column;
+}
+
+  .newpost-content{
+    display: flex;
+    margin-bottom: 1em;
+    flex-direction: column;
+  }
+
+  button#poster {
+    color: #089cf3;
+    font-weight: bold;
+    border-radius: 0px 0 10px 10px;
+}
 
 </style>

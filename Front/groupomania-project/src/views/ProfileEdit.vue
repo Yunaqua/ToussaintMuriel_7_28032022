@@ -19,7 +19,7 @@
         <tbody>
           <tr>
             <td><input type="text" class="form-control" id="nom" name="nom" :placeholder="[userData.nom]" v-model="nom"></td>
-            <td><input type="text" class="form-control" id="prenom" name="prenom" :placeholder="[userData.prenom]" v-model="age"></td>
+            <td><input type="text" class="form-control" id="prenom" name="prenom" :placeholder="[userData.prenom]" v-model="prenom"></td>
             <td><input type="email" class="form-control" id="email" name="email" :placeholder="[userData.email]" v-model="email"></td>
           </tr>
           
@@ -30,7 +30,7 @@
           </tr>
           <tr>
             <td><input type="number" min=0 max=120 class="form-control" id="age" name="age" :placeholder="[userData.age]" v-model="age"></td>
-            <td><input type="text" class="form-control" id="sexe" name="sexe" :placeholder="[userData.sexe]" v-model="age"></td>
+            <td><input type="text" class="form-control" id="sexe" name="sexe" :placeholder="[userData.sexe]" v-model="sexe"></td>
             <td></td>
           </tr>
         </tbody>
@@ -54,7 +54,7 @@
     </div>
     
     <p class="card__subtitle">Voilà mes informations personnelles</p>
-    <div><span class="update"><router-link to="/profile">Sauvegarder mon profil</router-link></span></div>
+    <div><span class="update"><router-link to="/profile" @click="updateProfile()">Sauvegarder mon profil</router-link></span></div>
     
     <img :src="userData.photo"/> 
     <div class="form-row">
@@ -72,7 +72,12 @@ export default {
   data() {
     return {
       userData:'',
-
+      nom: '',
+      prenom: '',
+      sexe: '',
+      age: '',
+      email: '',
+      password: '',
     }
   },
   mounted: function () {
@@ -94,6 +99,22 @@ export default {
         }
     } ,
     methods: {
+      async updateProfile(){
+         this.$store.dispatch('updateProfile', {
+          email: this.email,
+          nom: this.nom,
+          prenom: this.prenom,
+          age: this.age,
+          sexe: this.sexe,
+          password: this.password,
+        }).then( () => {
+          self.$router.push('profile');
+        }, (error) =>{
+          console.log(error);
+        }
+        )
+      }//update
+      , 
       async logOut (){
         const self=this;
         this.$store.dispatch('logOut', {

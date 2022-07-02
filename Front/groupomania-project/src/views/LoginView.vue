@@ -30,7 +30,7 @@
                       Adresse mail et/ou mot de passe invalide
                     </div>
                      <div class="form-row">
-                        <button @click="logAccount()" class="button" >
+                        <button @click="logAccount()" class="button" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
                             <span v-if="status == 'loading'">Connexion en cours...</span>
                             <span v-else>Se connecter à mon compte</span>
                         </button>
@@ -56,17 +56,22 @@ export default {
     return {
       email: '',
       password: '',
-      passwordConfirm: '', 
-
-      badpassword:"Mots de passe différent",
 
     }
   }, //data
   computed: {
+    isDisabled (){
+        if (this.email != "" && this.password.length >= 6) {
+          return false;
+        } else {
+          return true;
+        }
+      
+    },
     ...mapState(['status'])
 
   }, //computed
-  methods: {
+ methods: {
       async logAccount (){
         const self=this;
         this.$store.dispatch('logAccount', {
