@@ -39,7 +39,7 @@
       <div class="form-row">
           <div class="form-col">
             <div class="title">Date de création du compte</div>
-            <div>{{userData.createdAt}}</div>
+            <div>{{ new Date(userData.createdAt).toLocaleString() }} </div>
           </div>
           <div class="form-col">
             <div class="title">Nombre de messages</div>
@@ -55,7 +55,7 @@
     
     <p class="card__subtitle">Voilà mes informations personnelles</p>
     <div><span class="update"><router-link to="/update">Modifier mon profil</router-link></span></div>
-    <div><span class="delete">&#x2757; &#9888;&#65039; Supprimer définitivement mon profil &#9888;&#65039; &#x2757;</span></div>
+    <button v-on:click="DeleteUser(userData.id, userData.email )"><span class="delete">&#x2757; &#9888;&#65039; Supprimer définitivement mon profil &#9888;&#65039; &#x2757;</span></button>
     <img :src="userData.photo"/> 
     <div class="form-row">
       <button @click="logOut()" class="button">
@@ -67,7 +67,11 @@
 </template>
 
 <script>
+
+import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
+  
   name :'UserProfile',
   data() {
     return {
@@ -80,17 +84,20 @@ export default {
     if(this.$store.state.userId == -1) {  //deconnecté
       this.$router.push('/');
       return ;
-    }else if(localStorage.getItem('user') != null){
+    }
+    
+    if(localStorage.getItem('user') != null) {
           let userData = JSON.parse(localStorage.getItem("user"));
           this.userData= userData;
-
+          console.log(userData.isAdmin , "valeur admin")
           }
+      //this.$store.dispatch('getUserInfos');
     
   }//mounted
-  ,computed: {
-        getUserName(){
-          return this.$store.state.user.nom
-        }
+  , computed: {
+    ...mapState({
+      user: 'userInfos',
+    })
     } ,
     methods: {
       async logOut (){
@@ -98,13 +105,27 @@ export default {
         this.$store.dispatch('logOut', {
           
       }).then( () => {
-        localStorage.clear(),
+        this.$emit('name', false)
         self.$router.push('/');
       }, (error) =>{
         console.log(error);
       }
       )
     } //logOut 
+    ,
+    DeleteUser(id, email) {
+
+                if(confirm("Voulez-vous vraiment supprimer le compte de : "+email+ " ?")){
+
+                                axios.delete('http://localhost:5001/user/'+id)
+                                .then( ()=> {
+                                    console.log("suppression");
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                })
+                }
+            }//delete
   }//methode
 }
 </script>

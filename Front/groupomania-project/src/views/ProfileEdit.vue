@@ -30,7 +30,15 @@
           </tr>
           <tr>
             <td><input type="number" min=0 max=120 class="form-control" id="age" name="age" :placeholder="[userData.age]" v-model="age"></td>
-            <td><input type="text" class="form-control" id="sexe" name="sexe" :placeholder="[userData.sexe]" v-model="sexe"></td>
+            <td>
+              
+              <select class="form-row__input" placeholder="Sexe" v-model="sexe">
+                            <option value="" disabled selected>{{userData.sexe}}</option>
+                            <option value="Indéfini">Indéfini</option>
+                            <option value="Homme">Homme</option>
+                            <option value="Femme">Femme</option>
+                        </select>
+            </td>
             <td></td>
           </tr>
         </tbody>
@@ -78,6 +86,7 @@ export default {
       age: '',
       email: '',
       password: '',
+      dateupdate :'',
     }
   },
   mounted: function () {
@@ -85,35 +94,48 @@ export default {
     if(this.$store.state.userId == -1) {  //deconnecté
       this.$router.push('/');
       return ;
-    }else if(localStorage.getItem('user') != null){
+    }else if(localStorage.getItem('user') != (null||"undefined")){
           let userData = JSON.parse(localStorage.getItem("user"));
-          //console.log(userData.nom, " nom");
+          console.log(userData.nom, " nom");
           this.userData= userData;
 
           }
     
   }//mounted
-  ,computed: {
+  /*,computed: {
         getUserName(){
           return this.$store.state.user.nom
         }
-    } ,
+    } */,
     methods: {
       async updateProfile(){
-         this.$store.dispatch('updateProfile', {
+          //const self=this;
+          this.$store.dispatch('updateProfile', {
           email: this.email,
           nom: this.nom,
           prenom: this.prenom,
           age: this.age,
           sexe: this.sexe,
           password: this.password,
-        }).then( () => {
-          self.$router.push('profile');
+        } )
+        .then( () => {
+
+          console.log(this ," <= self ");
+          //self.$router.push('profile');
         }, (error) =>{
           console.log(error);
         }
         )
       }//update
+     /* async updateProfile(){
+        this.$store.dispatch('updateProfile')
+        .then( (response) => {
+          console.log(response, "upres")
+
+        }), (error) =>{
+          console.log(error);
+        }
+      }*/
       , 
       async logOut (){
         const self=this;

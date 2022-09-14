@@ -14,7 +14,7 @@
                 Login form
             </div>
             <div class="card-body">
-                <form > 
+                <form> 
 
                     <div class="form-row">
                         <label for="email">Email</label>
@@ -30,7 +30,7 @@
                       Adresse mail et/ou mot de passe invalide
                     </div>
                      <div class="form-row">
-                        <button @click="logAccount()" class="button" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
+                        <button type="submit" @click.prevent="logAccount()" class="button" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
                             <span v-if="status == 'loading'">Connexion en cours...</span>
                             <span v-else>Se connecter à mon compte</span>
                         </button>
@@ -59,6 +59,7 @@ export default {
 
     }
   }, //data
+
   computed: {
     isDisabled (){
         if (this.email != "" && this.password.length >= 6) {
@@ -73,17 +74,20 @@ export default {
   }, //computed
  methods: {
       async logAccount (){
+       
         const self=this;
         this.$store.dispatch('logAccount', {
         email: this.email,
         password: this.password,
       }).then( () => {
+        this.$emit('isConnected', true)
         self.$router.push('homepost');
-        console.log(self);
+        
       }, (error) =>{
         console.log(error);
       }
       )
+
     } //createAccount 
   }//methode
 }

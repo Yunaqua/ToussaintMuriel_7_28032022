@@ -22,8 +22,10 @@
                     </div>
                     <div class="form-row">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" v-model="email">
+                        <input type="email" class="form-control" id="email" name="email" v-model="email" @blur="validateEmail">
+                        <p v-if="email != '' && emailvalide == false">L'adresse email {{email}} est incorrect</p>
                     </div>
+                    
                      <div class="form-row">
 
                         <select class="form-row__input" placeholder="Sexe" v-model="sexe">
@@ -45,7 +47,7 @@
                     </div>
                     
                      <div class="form-row">
-                        <button @click="createAccount()" class="button" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
+                        <button @click.prevent="createAccount()" class="button" :class="{'disabled' : isDisabled }" :disabled="isDisabled">
                             <span v-if="status == 'loading'">Création en cours...</span>
                             <span>Créer mon compte</span>
                         </button>
@@ -62,6 +64,7 @@
 
 <script>
 //import axios from 'axios'
+import {mapState} from 'vuex'
 
 export default {
   name: 'ToLogin',
@@ -74,40 +77,58 @@ export default {
       email: '',
       password: '',
       passwordConfirm: '', 
+      emailvalide: false,
 
       badpassword:"Mots de passe différent",
+      reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/ // eslint-disable-line
+ 
 
     }
   }, // action="/auth/register" method="POST"
   computed: {
     isDisabled (){
-        if (this.nom != "" && this.prenom != "" && this.age != "" && this.sexe != "" && this.email != "" && this.password.length >= 6 && this.password == this.passwordConfirm) {
+        if (this.nom != "" && this.prenom != "" && this.age != "" && this.sexe != "" && this.email != "" && this.emailvalide == true && this.password.length >= 6 && this.password == this.passwordConfirm) {
           return false;
         } else {
           return true;
         }
       
     },
-
+    
+    ...mapState(['status'])
   }, //computed
     methods: {
-  
-    async createAccount (){
+      
+      /*isEmailValid: function() {
+          return (this.email == "")? "" : (this.reg.test(this.email)) ? 'has-success' : 'has-error';
+        },*/
+        validateEmail() {
+          if ((this.reg.test(this.email))) { // eslint-disable-line
+              //this.msg['email'] = 'Please enter a valid email address';
+              console.log("bon");
+              this.emailvalide = true;
+          } else {
+              //this.msg['email'] = '';
+              console.log("faux");
+              this.emailvalide = false;
+          }
+      },
+      async createAccount (){
 
-        this.$store.dispatch('createAccount', {
-        email: this.email,
-        nom: this.nom,
-        prenom: this.prenom,
-        age: this.age,
-        sexe: this.sexe,
-        password: this.password,
-      }).then( () => {
-        self.$router.push('homepost');
-      }, (error) =>{
-        console.log(error);
-      }
-      )
-    } //createAccount
+          this.$store.dispatch('createAccount', {
+          email: this.email,
+          nom: this.nom,
+          prenom: this.prenom,
+          age: this.age,
+          sexe: this.sexe,
+          password: this.password,
+        }).then( () => {
+          self.$router.push('homepost');
+        }, (error) =>{
+          console.log(error);
+        }
+        )
+      } //createAccount
   }//methode
 
 }

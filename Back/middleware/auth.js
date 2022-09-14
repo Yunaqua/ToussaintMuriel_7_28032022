@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: './.env' });
+const {User} = require('../models');
 
-
+/*
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1]; //la partie du tableau qui contient l'authentification
@@ -19,3 +20,48 @@ module.exports = (req, res, next) => {
     });
   }
 };
+*/
+
+verifyToken = (req, res, next) => {
+  let token = req.headers.authorization.split(' ')[1];
+  if (!token) {
+    return res.status(403).send({
+      message: "No token provided!"
+    });
+  }
+  jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => {
+    console.log(token)
+    if (err) {
+      return res.status(401).send({
+        message: "Unauthorized!"
+      });
+    }
+    req.userId = decoded.id;
+    next();
+  });
+};
+
+isAdmin = (req, res, next) => {
+  User.findByPk(req.userId).then(user => {
+      console.log(req.userId , "id")
+    
+        if (user.isAdmin === true) {
+          next();
+          return;
+        }
+      
+      res.status(403).send({
+        message: "Require Admin Role!"
+      });
+      return;
+    });
+  
+};
+
+
+const authJwt = {
+  verifyToken: verifyToken,
+  isAdmin: isAdmin
+};
+
+module.exports = authJwt;

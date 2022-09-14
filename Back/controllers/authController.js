@@ -64,16 +64,21 @@ exports.login = (req,res) => {
     console.log(req.body.email);
 
     User.findOne({
+        //attributes: { exclude: ['password'] },
         where: {email: req.body.email}
+        
         })
     .then(user => {
-        console.log(user,": email");
+        //ùùconsole.log(user,": email");
 
         const comparepwd = bcrypt.compare(password, user.password);
         if(!comparepwd){
             return res.status(401).json({msg :' Mot de passe incorrect !'});
         }else{
-            console.log(user.dataValues);
+           
+            //console.log(user.dataValues);
+            delete user.dataValues.password;
+            console.log('Vous êtes connecté');
             //return res.status(201).json({msg :' Bon mot de passe'});
             return res.status(200).send({
                 msg: 'Logged in!',
@@ -87,7 +92,7 @@ exports.login = (req,res) => {
                 )
                 , user : user.dataValues
             });
-            console.log('Vous êtes connecté');
+            
         }//else
     });
     

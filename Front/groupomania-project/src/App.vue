@@ -17,7 +17,7 @@
   <div id="app">
     <NavBar />
   </div>
-
+ 
 
 </template>
 
@@ -26,24 +26,39 @@
 
   import NavBar from "@/components/NavBar.vue";
   import { mapState } from 'vuex'
-  import axios from 'axios'
+ // import axios from 'axios'
 
   export default {
     data() {
-    return {user :null}
+    return {
+      user :null,
+      isConnected: false,
+      }
   },
-  async created(){
-    const response = await axios.get('user');
-    this.user = response.data;
-  },
-    props :['users'],
-
+  /*async created(){
+    const response = await axios.get('user', {
+      headers: {
+        Authorization: 'Bearer' + localStorage.getItem('token')
+      }
+    });
+    //this.user = response.data;
+  },  */
+   /* props :['users'], */
+   
     components: {
-      NavBar,
+      NavBar
   },
     computed: {
-    ...mapState(['status'])
-    }
+      
+    ...mapState(['status']),
+    
+    },
+    methods: {
+      
+      getName(value) {
+      console.log(value); // Raja Tamil
+      }
+    }//methods
   
 
   }

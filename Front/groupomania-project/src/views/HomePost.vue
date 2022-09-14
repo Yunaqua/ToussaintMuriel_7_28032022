@@ -125,8 +125,8 @@ export default {
   //props :['user'],
   
   mounted: function () {
-    console.log(this.$store.state.user);
-    if(this.$store.state.userId == -1) {  //deconnecté
+    //console.log(this.$store.state.user , 'mounted');
+    if(this.$store.state.user.userId == -1) {  //deconnecté
       this.$router.push('/');
       return ;
     }
@@ -152,8 +152,8 @@ export default {
         this.$store.dispatch('logOut', {
           
       }).then( () => {
-        localStorage.clear(),
-        self.$router.push('/');
+        //localStorage.clear(),
+        self.$router.go('/');
       }, (error) =>{
         console.log(error);
       }

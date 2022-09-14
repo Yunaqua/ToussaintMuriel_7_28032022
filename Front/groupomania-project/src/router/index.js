@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue';
 import Login from '../views/LoginView.vue';
 import Register from '../views/RegisterView.vue';
 import HomePost from '../views/HomePost.vue';
+import AllUser from '../views/AllUser.vue';
 import Profile from '../views/ProfileView.vue';
 import Update from '../views/ProfileEdit.vue';
 import NotFound from '../views/NotFound.vue';
@@ -43,6 +44,15 @@ const routes = [
     meta:{
       title: "Profile",
       description:" Page d'acceuil une fois l'utilisateur connecté"
+    }
+  },
+  {
+    path: '/alluser',
+    name: 'alluser',
+    component: AllUser,
+    meta:{
+      title: "AllUser",
+      description:" Page affichant tous les utilisateurs"
     }
   },
   {

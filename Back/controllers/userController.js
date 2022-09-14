@@ -68,4 +68,36 @@ exports.updateProfile= (req,res) => {
     }).catch( (error) => {
       res.status(500).json({error : "Pas d'utilisateur trouvé ou email déja existant"});
   }) 
-} //export
+} //export update
+
+exports.deleteProfile= (req,res) => {
+
+  console.log(req.params.id, "req")
+  User.destroy({
+    where: { id: req.params.id }
+  })
+  .then ( (User) => {
+    res.status(204).send();
+    console.log("Suppresion reussi")
+})
+.catch( (error) => {
+    res.status(500).json({error : "Suppression refusé"});
+}) 
+
+}//del
+
+exports.deleteAdminPro= (req,res) => {
+
+  console.log(req.params.id, "req")
+  User.destroy({
+    where: { id: req.params.id }
+  })
+  .then ( (User) => {
+    res.status(204).send();
+    console.log("Suppresion reussi")
+})
+.catch( (error) => {
+    res.status(500).json({error : "Suppression refusé"});
+}) 
+
+}//del
