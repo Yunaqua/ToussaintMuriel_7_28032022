@@ -137,9 +137,9 @@ export default {
           }
 
      
-    //this.$store.dispatch('getUserInfos');
-    /*console.log(this.$store.state.user.token + " c'est le token");
-    console.log(this.$store.state.user.user.id , " c'est l'id");
+    this.$store.dispatch('getUserInfos');
+    console.log(this.$store.state.user.token + " c'est le token");
+    /*console.log(this.$store.state.user.user.id , " c'est l'id");
     console.log(this.$store.state.user.user  , " c'est l'user");
     console.log(this.$store.state.user.user.prenom , " c'est le prenom"); */
     

@@ -11,9 +11,10 @@ const instance = axios.create({
 });
 // Alter defaults after instance has been created
 
-let user = localStorage.getItem('user');
+let user = sessionStorage.getItem('user');
 if (!user) {
  user = {
+    
     userId: -1,
     token: '',
   }; 
@@ -21,11 +22,15 @@ if (!user) {
   try {
     user = JSON.parse(user);
     instance.defaults.headers.common['Authorization'] = user.token;
+    //console.log(user,'not empty');
+    //console.log(instance.defaults.headers.common['Authorization'] )
+
   } catch (ex) {
     user = {
       userId: -1,
       token: '',
     };
+    console.log(ex)
   }
 }
 
@@ -50,6 +55,7 @@ export default new Vuex.Store({
     },
     logUser:function(state, user) {
       instance.defaults.headers.common['Authorization'] = user.token;
+      sessionStorage.setItem('user', JSON.stringify(user));
       state.user = user;
     },
     userInfos: function (state, userInfos) {
@@ -99,12 +105,12 @@ export default new Vuex.Store({
           .then(function (response) {
             commit('setStatus','');
             commit('logUser',response.data);
-           // console.log(response.data.user, " reponse login");
+            console.log(response.data.user, " reponse login");
 
             const newuser = response.data.user;
             window.localStorage.setItem('user', JSON.stringify(newuser));
-            localStorage.setItem('token', response.data.token);
-            //console.log(response.data.token, "token");
+            //localStorage.setItem('token', response.data.token);
+            console.log(response.data.token, "token");
             resolve(response);
           })
           .catch(function (error) {
@@ -115,25 +121,43 @@ export default new Vuex.Store({
       })
       
     }//account
-    , getUserInfos: ({commit}, user) => {
-      //console.log(user.id, 'IDDDD');
-      instance.get('/user/'+user.id)
+    , getUserInfos: ({commit}) => {
+
+      instance.get('/user/')
       .then(function (response) {
         commit('userInfos', response.data.user);
       })
       .catch(function () {
       });
-    }
+      /*console.log(user, 'get usuer')
+      if(user){
+        console.log(user , "user");
+        console.log(user.id, 'IDDDD');
+        instance.get('/user/'+user.id)
+        .then(function (response) {
+          commit('userInfos', response.data.user);
+          console.log(response.data.token, "token toekn");
+        })
+        .catch(function () {
+        });
+
+      }else{
+        console.log(user,"user vide")
+      } */
+      
+    }// getuser
     ,logOut: ({commit}, userInfos) => {
       console.log(userInfos);
       localStorage.clear(),
       commit('setStatus','deconnexion');
     }, //logout
 
-    updateProfile :({commit}, userInfos) =>{
+    updateProfile :({commit}, user) =>{
       return new Promise((resolve, reject) => {
-        console.log(userInfos , "modification");
-        instance.put(('/user/'+user.id), userInfos)
+        console.log(user.userData.id , "modification user");
+        console.log(user.token , "tok user");
+        instance.put(('/user/'+user.userData.id))
+          
           .then(function (response) {
             console.log(response, "up res"); //avant ici
             commit('setStatus','');
@@ -141,7 +165,7 @@ export default new Vuex.Store({
             console.log(response.data, "la mise a jour");
 
             const newuser = response.data.user;
-            window.localStorage.setItem('user', JSON.stringify(newuser));
+            window.sessionStorage.setItem('user', JSON.stringify(newuser));
             
             resolve(response);
           })

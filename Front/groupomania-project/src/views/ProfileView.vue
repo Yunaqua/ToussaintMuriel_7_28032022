@@ -89,9 +89,10 @@ export default {
     if(localStorage.getItem('user') != null) {
           let userData = JSON.parse(localStorage.getItem("user"));
           this.userData= userData;
-          console.log(userData.isAdmin , "valeur admin")
+          //console.log(userData.isAdmin , "valeur admin")
           }
-      //this.$store.dispatch('getUserInfos');
+      this.$store.dispatch('getUserInfos');
+      //console.log(this.$store.state.user.token , " c'est le token");
     
   }//mounted
   , computed: {

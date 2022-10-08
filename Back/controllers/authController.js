@@ -58,8 +58,8 @@ exports.register = (req,res) => {
 }//export
 
 
-exports.login = (req,res) => {
-    //console.log(req.body);
+exports.login =  async (req,res) => {
+    
     var { email, password} = req.body;
     console.log(req.body.email);
 
@@ -69,9 +69,36 @@ exports.login = (req,res) => {
         
         })
     .then(user => {
-        //ùùconsole.log(user,": email");
+        
+            
+           const comparepwd =  bcrypt.compareSync(password, user.password);
+            console.log(comparepwd , "compare")
+            if(!comparepwd){
+                return res.status(401).json({msg :' Mot de passe incorrect !'});
+            }else{
+            
+                //console.log(user.dataValues);
+                delete user.dataValues.password;
+                console.log('Vous êtes connecté');
+                //return res.status(201).json({msg :' Bon mot de passe'});
+                return res.status(200).send({
+                    msg: 'Logged in!',
+                    "id" : user.uuid,
+                    "token" : jwt.sign({
+                        "id" : user.uuid,
+                        "admin":user.isAdmin 
+                    }
+                    ,"SECRET_KEY",
+                    { expiresIn : '24h'}
+                    )
+                    , user : user.dataValues
+                });
+                
+            }//else 
 
-        const comparepwd = bcrypt.compare(password, user.password);
+        
+        /*const comparepwd =  bcrypt.compare(password, user.password);
+        console.log(comparepwd , "compare")
         if(!comparepwd){
             return res.status(401).json({msg :' Mot de passe incorrect !'});
         }else{
@@ -93,8 +120,12 @@ exports.login = (req,res) => {
                 , user : user.dataValues
             });
             
-        }//else
-    });
+        }//else*/
+    })
+    .catch(function (error) {
+        console.log(error);
+        
+      });
     
 
 }//export

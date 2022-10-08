@@ -19,7 +19,10 @@ module.exports = function(sequelize, DataTypes)  {
     },
     email: {
       allowNull:false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate:{
+        isEmail : true
+      }
     },
     nom: {
       allowNull:false,
@@ -35,7 +38,9 @@ module.exports = function(sequelize, DataTypes)  {
     },
     age: {
       allowNull:false,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      min: 0,
+      max: 120,
     },
     password: {
       allowNull:false,

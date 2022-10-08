@@ -18,9 +18,9 @@
         </thead>
         <tbody>
           <tr>
-            <td><input type="text" class="form-control" id="nom" name="nom" :placeholder="[userData.nom]" v-model="nom"></td>
-            <td><input type="text" class="form-control" id="prenom" name="prenom" :placeholder="[userData.prenom]" v-model="prenom"></td>
-            <td><input type="email" class="form-control" id="email" name="email" :placeholder="[userData.email]" v-model="email"></td>
+            <td><input type="text" class="form-control" id="nom" name="nom" :placeholder="[userData.nom]" v-model="userData.nom"></td>
+            <td><input type="text" class="form-control" id="prenom" name="prenom" :placeholder="[userData.prenom]" v-model="userData.prenom"></td>
+            <td><input type="email" class="form-control" id="email" name="email" :placeholder="[userData.email]" v-model="userData.email"></td>
           </tr>
           
           <tr class="thead-light">
@@ -29,10 +29,10 @@
             <th scope="col"></th>
           </tr>
           <tr>
-            <td><input type="number" min=0 max=120 class="form-control" id="age" name="age" :placeholder="[userData.age]" v-model="age"></td>
+            <td><input type="number" min=0 max=120 class="form-control" id="age" name="age" :placeholder="[userData.age]" v-model="userData.age"></td>
             <td>
               
-              <select class="form-row__input" placeholder="Sexe" v-model="sexe">
+              <select class="form-row__input" placeholder="Sexe" v-model="userData.sexe">
                             <option value="" disabled selected>{{userData.sexe}}</option>
                             <option value="Indéfini">Indéfini</option>
                             <option value="Homme">Homme</option>
@@ -61,8 +61,9 @@
         </div>
     </div>
     
-    <p class="card__subtitle">Voilà mes informations personnelles</p>
+    <p class="card__subtitle">Voilà mes informations personnelles</p><b>{{userData.nom}}</b>
     <div><span class="update"><router-link to="/profile" @click="updateProfile()">Sauvegarder mon profil</router-link></span></div>
+    <div><span class="update"><router-link to="/profile">Annuler</router-link></span></div>
     
     <img :src="userData.photo"/> 
     <div class="form-row">
@@ -111,15 +112,10 @@ export default {
       async updateProfile(){
           //const self=this;
           this.$store.dispatch('updateProfile', {
-          email: this.email,
-          nom: this.nom,
-          prenom: this.prenom,
-          age: this.age,
-          sexe: this.sexe,
-          password: this.password,
+            userData: this.userData,
+          
         } )
         .then( () => {
-
           console.log(this ," <= self ");
           //self.$router.push('profile');
         }, (error) =>{

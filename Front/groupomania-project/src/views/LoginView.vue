@@ -82,14 +82,21 @@ export default {
       }).then( () => {
         this.$emit('isConnected', true)
         self.$router.push('homepost');
-        
-      }, (error) =>{
+      /*  
+      }, 
+      (error) =>{
         console.log(error);
-      }
-      )
+      } 
+      )*/
+      })
+      .catch(function (error) {
+            console.log(error);
+          });
 
     } //createAccount 
-  }//methode
+  }//methode,
+  ,
+
 }
 
 </script>

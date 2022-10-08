@@ -6,7 +6,7 @@ const {authJwt} = require('../middleware');
 
 router.get('/', userController.getAllUser);
 router.get('/:id', userController.getOneUser);
-router.put("/:id", [authJwt.verifyToken, authJwt.isAdmin],userController.updateProfile);
+router.put("/:id", authJwt.verifyToken,userController.updateProfile);
 //router.put("/:id", auth, multer, userController.updateProfile);
 router.delete('/:id',authJwt.verifyToken, userController.deleteProfile);
 //router.delete('/:id',authJwt.isAdmin, userController.deleteAdminPro);
