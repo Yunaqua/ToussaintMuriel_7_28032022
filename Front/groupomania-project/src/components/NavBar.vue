@@ -11,15 +11,23 @@
   </nav>
   
    <nav v-else>
+    <i class='fa fa-bars'></i>
     <router-link to="/">Accueil</router-link> |
     <router-link to="/login">Connexion</router-link> |
     <router-link to="/register">S'inscrire</router-link>
 
   </nav>
+ 
+  <h3 class="title is-3">
+            Width:  px<br/>
+            Height:  px
+        </h3>
 
   <!--<router-view :user="user"/> -->
   <router-view/>
 </template>
+
+
 
 <script>
 
