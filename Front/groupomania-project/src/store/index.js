@@ -21,7 +21,9 @@ if (!user) {
 } else {
   try {
     user = JSON.parse(user);
-    instance.defaults.headers.common['Authorization'] = user.token;
+    instance.defaults.headers.common['Authorization'] = sessionStorage.getItem('token');
+    user.token = sessionStorage.getItem('token');
+    //instance.defaults.headers.common['Authorization'] = user.token;
     //console.log(user,'not empty');
     //console.log(instance.defaults.headers.common['Authorization'] )
 
@@ -54,8 +56,10 @@ export default new Vuex.Store({
       state.status=status;
     },
     logUser:function(state, user) {
+      console.log(user.token, "ttoo")
       instance.defaults.headers.common['Authorization'] = user.token;
       sessionStorage.setItem('user', JSON.stringify(user));
+      sessionStorage.setItem('token', JSON.stringify(user.token));
       state.user = user;
     },
     userInfos: function (state, userInfos) {
@@ -108,6 +112,7 @@ export default new Vuex.Store({
             console.log(response.data.user, " reponse login");
 
             const newuser = response.data.user;
+            window.sessionStorage.setItem('user', JSON.stringify(newuser));
             window.localStorage.setItem('user', JSON.stringify(newuser));
             //localStorage.setItem('token', response.data.token);
             console.log(response.data.token, "token");
@@ -149,20 +154,25 @@ export default new Vuex.Store({
     ,logOut: ({commit}, userInfos) => {
       console.log(userInfos);
       localStorage.clear(),
+      sessionStorage.clear(),
       commit('setStatus','deconnexion');
     }, //logout
 
     updateProfile :({commit}, user) =>{
       return new Promise((resolve, reject) => {
-        console.log(user.userData.id , "modification user");
+        console.log(user.userData.id , "modification userid");
+
+        console.log(user.userData , "modification user");
         console.log(user.token , "tok user");
-        instance.put(('/user/'+user.userData.id))
+        //let response = user.userData
+        instance.put(('/user/'+user.userData.id),user.userData)
+        
           
           .then(function (response) {
             console.log(response, "up res"); //avant ici
             commit('setStatus','');
-            commit('userInfos',response.data);
-            console.log(response.data, "la mise a jour");
+            commit('userInfos',user.userData);
+            console.log(user.userData, "la mise a jour");
 
             const newuser = response.data.user;
             window.sessionStorage.setItem('user', JSON.stringify(newuser));

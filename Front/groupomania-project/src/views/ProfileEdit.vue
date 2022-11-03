@@ -95,8 +95,8 @@ export default {
     if(this.$store.state.userId == -1) {  //deconnecté
       this.$router.push('/');
       return ;
-    }else if(localStorage.getItem('user') != (null||"undefined")){
-          let userData = JSON.parse(localStorage.getItem("user"));
+    }else if(sessionStorage.getItem('user') != (null||"undefined")){
+          let userData = JSON.parse(sessionStorage.getItem("user"));
           console.log(userData.nom, " nom");
           this.userData= userData;
 

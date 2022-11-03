@@ -130,7 +130,7 @@ export default {
       this.$router.push('/');
       return ;
     }
-    else if(localStorage.getItem('user') != null){
+    else if(localStorage.getItem('user') != null && sessionStorage.getItem('user') != null){
           let userData = JSON.parse(localStorage.getItem("user"));
           this.userData= userData;
 

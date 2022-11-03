@@ -86,8 +86,8 @@ export default {
       return ;
     }
     
-    if(localStorage.getItem('user') != null) {
-          let userData = JSON.parse(localStorage.getItem("user"));
+    if(sessionStorage.getItem('user') != null) {
+          let userData = JSON.parse(sessionStorage.getItem("user"));
           this.userData= userData;
           //console.log(userData.isAdmin , "valeur admin")
           }

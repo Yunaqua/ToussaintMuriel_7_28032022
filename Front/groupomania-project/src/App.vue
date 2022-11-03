@@ -13,8 +13,12 @@
     
 
 </head>
-
-  <div id="app">
+  
+  <div id="app"  :class="{'theme-dark': nightMode}" > <!-- :class="{'theme-dark': nightMode}" -->
+    <div id="nightmode">
+      <i class="fas fa-sun icon-sun" v-if="nightMode" @click="nightMode = !nightMode"></i>
+      <i class="fas fa-moon icon-moon" v-else @click="nightMode = !nightMode"></i>
+    </div>
     <NavBar />
   </div>
  
@@ -33,8 +37,33 @@
     return {
       user :null,
       isConnected: false,
+      nightMode:false,
       }
-  },
+   /* function nightMode() {
+        localStorage.setItem("nightMode", JSON.stringify(this.nightMode));
+        this.nightMode = JSON.parse(localStorage.getItem("nightMode"));
+          document.body.style.backgroundColor = "red";
+        }*/
+
+  }, 
+
+ 
+  watch : {
+  
+      nightMode: function() {
+        localStorage.setItem("nightMode", JSON.stringify(this.nightMode));
+          /*if(this.nightMode==true){
+          document.body.style.backgroundColor = "green";
+          document.body.style.backgroundImage = "red";
+          console.log(this.nightMode, "night")
+        }*/
+      }
+    ,
+    created() {
+      this.nightMode = JSON.parse(localStorage.getItem("nightMode"));
+      
+    }
+  }, 
   /*async created(){
     const response = await axios.get('user', {
       headers: {
@@ -69,5 +98,27 @@
 <style>
 
   @import './assets/Css/styles.css';
+  #nightmode i{
+      
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          font-size: 1.6rem;
+          cursor: pointer;
+
+  }
+  #nightmode .icon-moon {
+      color: #041B37;
+    }
+  #nightmode .icon-sun {
+    color: #FCDA5F;
+    }
+
+    .theme-dark{
+  
+      color: #efefef;
+      background-image: linear-gradient(8deg, #232324 0%, #ffffff 100%);
+ 
+    }
   
 </style>
