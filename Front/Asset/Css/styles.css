@@ -20,6 +20,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  width: 100%;
 }
 
 h1 {
@@ -46,7 +47,7 @@ label {
 }
 
 nav {
-  margin: 15px;
+  margin-bottom: 15px;
   padding: 20px;
   background-color: #fd2d01;
   border-radius: 16px;
@@ -113,7 +114,7 @@ body {
   display: flex;
   justify-content: flex-start;
   min-height: 100vh;
-  padding: 32px;
+  padding: 32px 0;
   flex-direction: column;
   align-items: center;
 }

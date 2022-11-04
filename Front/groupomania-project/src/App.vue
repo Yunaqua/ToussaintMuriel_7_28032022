@@ -12,15 +12,36 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
     
 
-</head>
-  
-  <div id="app"  :class="{'theme-dark': nightMode}" > <!-- :class="{'theme-dark': nightMode}" -->
+  </head>
+ <div id='new'> <NavBar /> </div>
+
+  <div id="Groupomania-App"  :class="{'theme-dark': nightMode}" > <!-- :class="{'theme-dark': nightMode}" -->
     <div id="nightmode">
       <i class="fas fa-sun icon-sun" v-if="nightMode" @click="nightMode = !nightMode"></i>
       <i class="fas fa-moon icon-moon" v-else @click="nightMode = !nightMode"></i>
     </div>
-    <NavBar />
+    
+    
+    <div class ="main-container">
+      <router-view/><!-- les pages views-->
+
+      <div class="info">
+        <div v-if="isLogged" ><BestPosts /></div>
+        <h3>Groupomania</h3>
+
+        <ul class="list-footer">
+          <li>À propos</li>
+          <li>Aide</li>
+          <li>Confidentialité</li>
+          <li>Mentions légales</li>
+          <li><a href="mailto:contact@example.com">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+     
+
   </div>
+ 
  
 
 </template>
@@ -29,6 +50,7 @@
 <script>
 
   import NavBar from "@/components/NavBar.vue";
+  import BestPosts from "@/components/BestPost.vue";
   import { mapState } from 'vuex'
  // import axios from 'axios'
 
@@ -75,12 +97,19 @@
    /* props :['users'], */
    
     components: {
-      NavBar
+      NavBar,
+      BestPosts
   },
     computed: {
       
     ...mapState(['status']),
-    
+      isLogged (){
+        if(localStorage.getItem('user') != null) {
+          return true;
+        } else {
+          return false;
+        }
+    }//islogged
     },
     methods: {
       
@@ -95,9 +124,49 @@
 
 </script>
 
-<style>
+<style lang="scss">
 
   @import './assets/Css/styles.css';
+
+  #Groupomania-App {
+    display: flex;
+    justify-content: center;
+  }
+
+  body{
+    background-image :none;
+    background-color:#f5f5f5!important;
+    padding: 0;
+  }
+
+  .main-container {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+  }
+
+
+
+  //////        Info     /////////
+   
+    .info {
+        margin-top: 2em;
+        max-width: 250px;
+          ul{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            padding-left: 10px;
+            list-style: none;
+            li {
+              padding-right: 3px;
+            }
+          }
+    }
+  
+
+  /////////            Night mode             ///////////
   #nightmode i{
       
           position: absolute;
@@ -120,5 +189,6 @@
       background-image: linear-gradient(8deg, #232324 0%, #ffffff 100%);
  
     }
-  
+
+    
 </style>

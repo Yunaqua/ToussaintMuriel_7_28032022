@@ -1,43 +1,46 @@
 <template>
   
-  
-  <ChildComponent @name="getName"/>
-  <div v-show="!mobile">
-    <nav v-if="isLogged">
-      <router-link to="/homepost">Forum</router-link> |
-      <router-link to="/profile">Profile</router-link> |
-      <router-link to="/alluser" v-if="admAc">Abonné  | </router-link> 
-      <router-link to="/" @click="logOut()">Déconnexion</router-link>
+  <div class="Main-bar">
+    <ChildComponent @name="getName"/>
+    <div v-show="!mobile">
+      <nav v-if="isLogged">
+        <router-link to="/homepost">Forum</router-link> |
+        <router-link to="/profile">Profile</router-link> |
+        <router-link to="/alluser" v-if="userData.isAdmin == 49">Abonné  |</router-link> 
+        <router-link to="/" @click="logOut()">Déconnexion</router-link>
+        
+      </nav>
       
-    </nav>
-    
-    <nav v-else>
-      <router-link to="/">Accueil d</router-link> |
-      <router-link to="/login">Connexion</router-link> |
-      <router-link to="/register">S'inscrire</router-link>
+      <nav v-else>
+        <router-link to="/">Accueil</router-link> |
+        <router-link to="/login">Connexion</router-link> |
+        <router-link to="/register">S'inscrire</router-link>
 
-    </nav>
-  </div>
-   <div class="icon">
-    <!--<p>here</p> -->
-    <button @:click="toggleMobileNav" v-show="mobile"  :class="{'icon-active' : mobileNav}"><i class='fa fa-bars'></i></button>
-  </div>
-  <transition name="mobile-nav">
-      <ul v-show="mobileNav" class="dropdown-nav">
-        <li><router-link to="/">Accueil</router-link> </li>
-        <li><router-link to="/login">Connexion</router-link></li>
-        <li><router-link to="/register">S'inscrire</router-link></li>
-      </ul>
-    
-  </transition>
- 
-  <h3 class="title is-3">
-            <p>Page width is  {{ window.width }}px {{ window.height }}px</p>
-            <p> <button @click="$emit('test-click')">ici</button> </p>
-        </h3>
- 
-  <!--<router-view :user="user"/>  {{ $screen.width }}  -->
-  <router-view/>
+      </nav>
+    </div>
+    <div class="icon">
+      <!--<p>here</p> -->
+      <i @click="toggleMobileNav" v-show="mobile"  :class="{'icon-active' : mobileNav}" class='fa fa-bars'></i>
+    </div>
+    <transition name="mobile-nav">
+        <ul v-if="isLogged" v-show="mobileNav" class="dropdown-nav">
+          <li><router-link to="/homepost">Forum</router-link></li>
+          <li><router-link to="/profile">Profile</router-link></li>
+          <li><router-link to="/alluser" v-if="userData.isAdmin == 49">Abonné</router-link> </li>
+          <li><router-link to="/" @click="logOut()">Déconnexion</router-link></li>
+        </ul>
+
+        <ul v-else v-show="mobileNav" class="dropdown-nav">
+          <li><router-link to="/">Accueil</router-link> </li>
+          <li><router-link to="/login">Connexion</router-link></li>
+          <li><router-link to="/register">S'inscrire</router-link></li>
+        </ul>
+      
+    </transition>
+  
+  
+    <!--<router-view :user="user"/>  {{ $screen.width }}  -->
+   </div> 
 </template>
 
 
@@ -51,6 +54,7 @@ export default {
   data() {
     return {
       userData:'',
+      counter: 0,
       mobile :null,
       mobileNav: null,
       windowWidth:null,
@@ -108,9 +112,7 @@ export default {
         }
         ,*/
       toggleMobileNav(){
-          alert('Hello ');
-          //this.mobileNav = !this.mobileNav;
-          console.log("changement", this.mobileNav);
+          this.mobileNav = !this.mobileNav;
           return;
         },
         checkScreen(){
@@ -158,19 +160,52 @@ export default {
    right : 24px;
  -->
 <style lang="scss" scoped>
+
+  .Main-bar{
+    background-color: red;
+  }
   .icon{
-    display:flex;
+    display: flex;
     align-items: center;
     top: 0;
-    height :100%;
+    height: 100%;
+    justify-content: flex-end;
+    i{
+      font-size: 24px;
+      cursor: pointer;
+      transition: .8s ease all;
+    }
   }
   .icon-active{
     transform: rotate(180deg);
   }
   .dropdown-nav{
-    display : flex;
+    display: flex;
     flex-direction: column;
-    position :fixed;
+    position: absolute;
+    background-color: white;
+    right: 1em;
+    max-height: -webkit-fit-content;
+    max-height: -moz-fit-content;
+    max-height: fit-content;
+    z-index: 1;
+    border: 1px solid;
+    list-style-type: none;
+    padding: 1em;
+    margin-right: 1em;
+    max-width: 250px;
+      li {
+      padding: 0.5em 0em;
+      font-weight: bold;
+      &:hover {
+        background-color: #878787;
+        a:hover{
+          color:white;
+        }
+      }
+      
+    }//li
+
   }
   
 </style>
